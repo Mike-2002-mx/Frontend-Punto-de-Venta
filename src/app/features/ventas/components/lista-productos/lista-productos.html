@@ -1,0 +1,37 @@
+<div  >
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Exis.</th>
+            <th scope="col">Precio U.</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Importe</th>
+        </tr>
+        </thead>
+        @if (carritoProductos() && carritoProductos().length > 0) {
+            <tbody>
+                @for (producto of carritoProductos(); let i = $index; track producto.id) {
+                <tr  style="cursor: pointer;">
+                    <th scope="row">{{ producto.descripcion }}</th>
+                    <td>{{ producto.exis }}</td>
+                    <td>{{ producto.precioU }}</td>
+                    <td>{{ producto.cantidad }}</td>
+                    <td>{{ producto.importe }}</td>
+                </tr>
+                }
+            </tbody>
+        } @else {
+            <tbody>
+                <tr>
+                <td colspan="6">
+                    No se encontraron productos
+                </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+    <div>
+        <h4>Total ${{totalVenta()}}</h4>
+    </div>
+</div>

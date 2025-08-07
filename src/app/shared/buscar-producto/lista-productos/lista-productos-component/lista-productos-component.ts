@@ -13,7 +13,7 @@ export class ListaProductosComponent {
   //Manda al padre
   productoSeleccionado = output<Producto>();
 
-    // Índice del producto seleccionado
+  // Índice del producto seleccionado
   indiceSeleccionado = signal<number>(-1);
 
   // Referencia al host para escuchar eventos de teclado

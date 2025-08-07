@@ -37,4 +37,8 @@ export class ProductoService {
     { id: 30, descripcion: "Cinta adhesiva", cod_barras: '1029', exis: 26, stock_min: 10, precio_venta: 3.20, precio_compra: 2.00 }
   ]);
 
+  buscarPorCodigo(codigo: string): Producto | undefined {
+    return this.productos().find(p => p.cod_barras === codigo.trim());
+  }
+
 }
