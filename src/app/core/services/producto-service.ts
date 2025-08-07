@@ -41,4 +41,8 @@ export class ProductoService {
     return this.productos().find(p => p.cod_barras === codigo.trim());
   }
 
+  buscarPorPalabraClave(palabra:string):Producto[]|undefined{
+    return this.productos().filter(p=>p.descripcion.toLowerCase().includes(palabra.toLowerCase()));
+  }
+
 }

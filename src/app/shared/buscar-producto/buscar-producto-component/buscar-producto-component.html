@@ -1,2 +1,2 @@
-<app-barra-busqueda-component (palabraClave)="onActualizarPalabra($event)" />
-<app-lista-productos-component  [productosFiltrados]="productosFiltrados()" />
+<app-barra-busqueda-component (teclaEnter)="onTeclaEnter($event)" (palabraClave)="filtrarProducto($event)" (teclaAbajo)="navegarLista(1)"  (teclaArriba)="navegarLista(-1)"/>
+<app-lista-productos-component (productoSeleccionado)="onProductoSeleccionado($event)" [productosFiltrados]="productosFiltrados()" [indiceSeleccionado]="indiceSeleccionado()"/>
