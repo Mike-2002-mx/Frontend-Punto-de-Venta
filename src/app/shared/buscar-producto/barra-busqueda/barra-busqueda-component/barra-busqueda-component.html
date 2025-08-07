@@ -1,0 +1,9 @@
+<div>
+    <input 
+        type="text"
+        placeholder="Buscar producto..."
+        (input)="palabraClave.emit(txtPalabra.value)"
+        (change)="palabraClave.emit(txtPalabra.value)"
+        #txtPalabra
+    >
+</div>

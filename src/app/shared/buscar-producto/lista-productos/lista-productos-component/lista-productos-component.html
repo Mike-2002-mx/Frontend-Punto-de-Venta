@@ -1,0 +1,36 @@
+<div tabindex="0" #listaRef (keydown)="onKeyDown($event)">
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">Cod_Barras</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Exis.</th>
+            <th scope="col">Stock Minimo</th>
+            <th scope="col">Precio Venta</th>
+            <th scope="col">Precio Compra</th>
+        </tr>
+        </thead>
+        @if (productosFiltrados() && productosFiltrados()!.length > 0) {
+            <tbody>
+                @for (producto of productosFiltrados(); let i = $index; track producto.id) {
+                <tr [class.selected]="indiceSeleccionado() === i"   (click)="onSeleccionarProducto(producto)" style="cursor: pointer;">
+                    <th scope="row">{{ producto.cod_barras }}</th>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.exis }}</td>
+                    <td>{{ producto.stock_min }}</td>
+                    <td>{{ producto.precio_venta }}</td>
+                    <td>{{ producto.precio_compra }}</td>
+                </tr>
+                }
+            </tbody>
+        } @else {
+            <tbody>
+                <tr>
+                <td colspan="6">
+                    No se encontraron productos
+                </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>
