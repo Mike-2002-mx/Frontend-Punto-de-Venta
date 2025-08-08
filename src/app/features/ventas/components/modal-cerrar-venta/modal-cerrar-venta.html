@@ -1,0 +1,19 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+	<h2>Ticket</h2>
+	<h2>Total a pagar</h2>
+	<h2>{{totalVenta()}}</h2>
+	<p>Paga Con</p>
+	<input 
+		type="number"
+		autofocus
+		[value]="pagoCon()"
+		(input)="calcularCambio(pagoConTxt.valueAsNumber)"
+		#pagoConTxt
+		tabindex="0"
+	>
+	<h2>Cambio</h2>
+	<h3>{{cambio()}}</h3>
+	<button (click)="closeModal()">Aceptar</button>
+  </div>
+</div>

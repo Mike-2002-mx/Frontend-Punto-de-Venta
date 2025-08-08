@@ -1,8 +1,9 @@
 <div>
     <input 
         type="text"
-        placeholder="Buscar producto..."
+        placeholder="Ingresar codigo..."
         (keydown.enter)="emitValue(txtCodigo.value)"
+        (keydown.esc)="onTeclaEsc($event)"
         #txtCodigo
         autofocus
     >
