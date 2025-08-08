@@ -1,9 +1,8 @@
-import { Component, inject, effect , output, signal } from '@angular/core';
+import { Component, inject, effect , output, signal, input } from '@angular/core';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
 import { ModalCerrarVenta } from '../modal-cerrar-venta/modal-cerrar-venta';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -22,6 +21,8 @@ export class CarritoCompras {
   productoEncontrado = signal<Producto | undefined>(undefined);
   totalVenta = signal<number>(0);
   teclaEsc = signal<Event|undefined>(undefined);
+  pagoCon = signal<number>(0);
+  cambio = signal<number>(0);
 
   esVisibleModal=false;
 
@@ -34,11 +35,23 @@ export class CarritoCompras {
 	  this.esVisibleModal = true;
   }
 
+  onPagoCon(n:number){
+    this.pagoCon.set(n);
+    console.log("Pago con: ", this.pagoCon())
+  }
+
+  onCambio(n:number){
+    this.cambio.set(n);
+  }
+
   hideModal() {
-	  this.esVisibleModal = false;
+    console.log("Venta realizada con fecha: ", new Date().toLocaleString(),
+    "\nTotal: ", this.totalVenta(),
+    "\nPago Con", this.pagoCon(),
+    "\nCambio", this.cambio());
+    this.esVisibleModal = false;
     this.listaProductos.set([]);
     this.totalVenta.set(0);
-    console.log("Venta realizada con fecha: ", new Date().toLocaleString());
   }
 
   buscarProducto(codigo: string){

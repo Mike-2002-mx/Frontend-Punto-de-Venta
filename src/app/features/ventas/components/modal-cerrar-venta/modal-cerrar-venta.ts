@@ -1,3 +1,4 @@
+import { CssSelector } from '@angular/compiler';
 import { AfterViewInit, Component, effect, ElementRef, input, OnInit, output, signal, ViewChild } from '@angular/core';
 
 @Component({
@@ -17,9 +18,12 @@ export class ModalCerrarVenta implements OnInit, AfterViewInit {
   }
   
   close = output<void>();
-  totalVenta = input<number|undefined>(undefined);
-  pagoCon = signal(this.totalVenta());
-  cambio = signal<number|undefined>(this.totalVenta());
+  totalVenta = input.required<number>();
+  pagoCon = signal<number>(0);
+  cambio = signal<number>(0);
+
+  pagoConOutput = output<number>();
+  cambioOutput = output<number>();
 
   @ViewChild('pagoConTxt') pagoConTxt!: ElementRef<HTMLInputElement>;
 
@@ -29,16 +33,35 @@ export class ModalCerrarVenta implements OnInit, AfterViewInit {
   }
 
   closeModal() {
+    const pago= this.pagoCon();
+    const cambio = this.cambio();
+    if(pago && cambio){
+      console.log("Emitiendo pago: ", pago);
+      console.log("Emitiendo cambio: ", cambio);
+      this.pagoConOutput.emit(pago);
+      this.cambioOutput.emit(cambio);
+    } 
     this.close.emit();
   }
 
+  //Hacer más robusto este método
   calcularCambio(pagoCon:number){
     const total = this.totalVenta();
+    if(isNaN(pagoCon)){
+      const pago = total;
+      this.pagoCon.set(pago);
+      this.cambio.set(0);
+      alert("Ingrese un valor");
+      return;
+    }
+    const cambio = pagoCon-total;
+    if(cambio<0){
+      console.warn("El pago es insuficiente");
+    }
     if(total!=undefined){
-      this.cambio.set(pagoCon-total);
+      this.pagoCon.set(pagoCon);
+      this.cambio.set(cambio);
       console.log(this.cambio());
-    }else{
-      console.log("El cambio no puede ser negativo")
     }
   }
 }

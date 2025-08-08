@@ -14,6 +14,9 @@
 	>
 	<h2>Cambio</h2>
 	<h3>{{cambio()}}</h3>
-	<button (click)="closeModal()">Aceptar</button>
+	<button 
+      (click)="closeModal()" 
+      [disabled]="cambio() < 0"
+    >Aceptar</button>
   </div>
 </div>

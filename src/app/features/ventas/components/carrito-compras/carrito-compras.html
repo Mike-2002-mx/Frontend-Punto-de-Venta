@@ -2,5 +2,5 @@
 <app-lista-productos [carritoProductos]="listaProductos()" [totalVenta]="totalVenta()" />
 
 @if (esVisibleModal) {
-    <app-modal-cerrar-venta [totalVenta]="totalVenta()" (close)="hideModal()"/>
+    <app-modal-cerrar-venta (cambioOutput)="onCambio($event)" (pagoConOutput)="onPagoCon($event)" [totalVenta]="totalVenta()" (close)="hideModal()"/>
 }
