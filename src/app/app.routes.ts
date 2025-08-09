@@ -13,5 +13,5 @@ export const routes: Routes = [
     {path:"historial-page", component:HistorialPage},
     {path:"carrito", component:CarritoCompras},
     {path:"buscar-producto", component:BuscarProductoComponent},
-    {path:"**", redirectTo:""}
+    {path:"**", redirectTo:"ventas-page"}
 ];

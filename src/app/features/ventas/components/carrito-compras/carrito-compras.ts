@@ -3,6 +3,7 @@ import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
 import { ModalCerrarVenta } from '../modal-cerrar-venta/modal-cerrar-venta';
+import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -14,26 +15,21 @@ export class CarritoCompras {
 
   //Servicio de productos
   productosService = inject(ProductoService);
-
+  carritoActualService = inject(CarritoVentaService);
 
   //Carrito
   listaProductos = signal<DetalleVenta[]>([]);
-  productoEncontrado = signal<Producto | undefined>(undefined);
+  carritoVentas = this.carritoActualService.getCarritoActual();
   totalVenta = signal<number>(0);
-  teclaEsc = signal<Event|undefined>(undefined);
   pagoCon = signal<number>(0);
   cambio = signal<number>(0);
 
   esVisibleModal=false;
 
-  onTeclaEsc(event: Event){
-    this.teclaEsc.set(event);
-    this.showModal();
+  onTeclaEsc(){
+    this.esVisibleModal = true;
   }
 
-  showModal() {
-	  this.esVisibleModal = true;
-  }
 
   onPagoCon(n:number){
     this.pagoCon.set(n);
@@ -49,6 +45,8 @@ export class CarritoCompras {
     "\nTotal: ", this.totalVenta(),
     "\nPago Con", this.pagoCon(),
     "\nCambio", this.cambio());
+    this.carritoActualService.limpiarCarrito();
+    this.carritoActualService.carritoSignal.set([]);
     this.esVisibleModal = false;
     this.listaProductos.set([]);
     this.totalVenta.set(0);
@@ -56,7 +54,6 @@ export class CarritoCompras {
 
   buscarProducto(codigo: string){
     const encontrado = this.productosService.buscarPorCodigo(codigo);
-    this.productoEncontrado.set(encontrado);
     //Agregar si esta 
     if(encontrado){
       this.agregarAlCarrito(encontrado);
@@ -70,7 +67,10 @@ export class CarritoCompras {
       existente.importe = existente.cantidad * existente.precioU;
     }else{
       const nuevoProducto = this.crearDetalle(producto);
+
+      this.carritoActualService.addProducto(nuevoProducto);//Agregar producto a carritoActual
       this.listaProductos.update(list => [...list, nuevoProducto]);
+      console.log("Se agrego a carrito actual: ", this.carritoActualService.getCarritoActual())
     }
     this.calcularTotal(this.listaProductos());
   }

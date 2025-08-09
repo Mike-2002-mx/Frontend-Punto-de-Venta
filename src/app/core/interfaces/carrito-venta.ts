@@ -1,4 +1,4 @@
-interface DetalleVenta{
+export interface CarritoVenta {
     id:number;
     descripcion:string;
     exis:number;

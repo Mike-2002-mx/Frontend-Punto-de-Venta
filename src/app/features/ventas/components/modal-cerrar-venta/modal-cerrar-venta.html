@@ -2,7 +2,7 @@
   <div class="modal-content" (click)="$event.stopPropagation()">
 	<h2>Ticket</h2>
 	<h2>Total a pagar</h2>
-	<h2>{{totalVenta()}}</h2>
+	<h2>{{totalVenta}}</h2>
 	<p>Paga Con</p>
 	<input 
 		type="number"
@@ -15,8 +15,7 @@
 	<h2>Cambio</h2>
 	<h3>{{cambio()}}</h3>
 	<button 
-      (click)="closeModal()" 
-      [disabled]="cambio() < 0"
+      (click)="cerrarVenta()"
     >Aceptar</button>
   </div>
 </div>
