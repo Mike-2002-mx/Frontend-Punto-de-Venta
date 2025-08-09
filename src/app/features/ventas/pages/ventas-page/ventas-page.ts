@@ -1,4 +1,4 @@
-import { Component, inject, input, output, Signal, signal } from '@angular/core';
+import { Component, HostListener, inject, input, output, Signal, signal } from '@angular/core';
 import { CarritoCompras } from "../../components/carrito-compras/carrito-compras";
 import { Navbar } from "../../../../shared/navbar/navbar";
 import { CintaOpciones } from "../../components/cinta-opciones/cinta-opciones";
@@ -13,11 +13,9 @@ import { CarritoVentaService } from '../../../../core/services/carrito-venta-ser
 })
 export class VentasPage {
 
-  // carritoActualService = inject(CarritoVentaService);
-
-
   //Todo lo del modal cerrar venta
   modalCerrarVentaVisible = false;
+  ventaCerrada = signal<number>(0);
 
   showModal(){
     this.modalCerrarVentaVisible=true;
@@ -28,9 +26,14 @@ export class VentasPage {
     this.modalCerrarVentaVisible=false;
   }
 
+  onVentaCerrada(){
+    this.ventaCerrada.update(n => n+1);
+    console.log("Venta del dia número: ", this.ventaCerrada());
+  }
+
   cerrarVenta(){
     console.log("Boton Cerrar venta presionado deberia abrirse un modal para cerrar venta");
-    this.modalCerrarVentaVisible=true;
+    this.showModal(); 
   }
 
   buscarProducto(){
@@ -39,6 +42,11 @@ export class VentasPage {
 
   removerProducto(){
     console.log("Boton Cerrar venta presionado");
+  }
+
+  @HostListener('window:keydown.escape', ['$event'])
+    onEsc(event: Event) {
+    this.showModal();
   }
 
 }

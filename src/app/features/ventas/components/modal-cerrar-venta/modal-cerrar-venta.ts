@@ -27,6 +27,7 @@ export class ModalCerrarVenta {
   pagoConOutput = output<number>();
   cambioOutput = output<number>();
   totalVentaOuput = output<number>();
+  isVentaCerrada = output<void>();
 
     // Hacer más robusto este método
   calcularCambio(pagoCon:number){
@@ -71,7 +72,8 @@ export class ModalCerrarVenta {
       this.cambioOutput.emit(cambio);
     } 
     //Logica para guardar la venta
-    this.carritoActualService.limpiarCarrito();
+    this.isVentaCerrada.emit();
+    this.carritoActualService.carritoSignal.set([]);
     this.close.emit();
   }
 

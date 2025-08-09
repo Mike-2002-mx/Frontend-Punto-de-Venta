@@ -12,7 +12,7 @@ export class CarritoVentaService {
     return this.carritoSignal();
   }
 
-  addProducto(producto: CarritoVenta){
+  agregarAlCarrito(producto: CarritoVenta){
     this.carritoSignal.update(list=>[...list, producto]);
   }
 

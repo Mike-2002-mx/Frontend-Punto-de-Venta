@@ -10,11 +10,11 @@
             class="m-2 w-full" />
         </div>
         <div class="flex-1 flex justify-end p-2">
-            <app-carrito-compras/>
+            <app-carrito-compras [conteoVentas]="ventaCerrada()"/>
         </div>
     </div>
 </div>
 
 @if(modalCerrarVentaVisible){
-    <app-modal-cerrar-venta  (close)="hideModal()"/>
+    <app-modal-cerrar-venta (isVentaCerrada)="onVentaCerrada()" (close)="hideModal()"/>
 }

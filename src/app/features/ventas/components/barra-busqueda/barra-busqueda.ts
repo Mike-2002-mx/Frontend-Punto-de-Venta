@@ -8,13 +8,9 @@ import { Component, output } from '@angular/core';
 })
 export class BarraBusqueda {
   codigoBarras = output<string>()
-  teclaEsc = output<Event>();
 
   emitValue(value:string){  
     this.codigoBarras.emit(value);
   }
 
-  onTeclaEsc(event: Event){
-    this.teclaEsc.emit(event);
-  }
 }

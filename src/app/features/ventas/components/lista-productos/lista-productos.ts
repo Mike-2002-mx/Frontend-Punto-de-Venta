@@ -1,4 +1,4 @@
-import { Component, effect, input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, effect, input, model, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-lista-productos',
@@ -6,22 +6,11 @@ import { Component, effect, input, OnChanges, OnInit, signal, SimpleChanges } fr
   templateUrl: './lista-productos.html',
   styleUrl: './lista-productos.css'
 })
-export class ListaProductos implements OnInit, OnChanges{
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("COmponente hijo: ", this.carritoProductos())
-  }
+export class ListaProductos implements OnInit{
   ngOnInit(): void {
-    console.log(this.carritoProductos())
+    console.log("Esto esta en lista productos: ", this.carritoProductos())
   }
+  carritoProductos = input<DetalleVenta[]>([]);
 
-  //Producto encontrado en carrito-compras
-  carritoProductos = input<DetalleVenta[]
-  >([]);
-
-  //Total
   totalVenta = input<number>();
-
-
-
-
 }

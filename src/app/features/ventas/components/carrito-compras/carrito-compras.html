@@ -1,6 +1,2 @@
-<app-barra-busqueda (teclaEsc)="onTeclaEsc()" (codigoBarras)="buscarProducto($event)"/>
-<app-lista-productos [carritoProductos]="carritoVentas" [totalVenta]="totalVenta()" />
-
-<!-- @if (esVisibleModal) {
-    <app-modal-cerrar-venta (cambioOutput)="onCambio($event)" (pagoConOutput)="onPagoCon($event)" (close)="hideModal()"/>
-} -->
+<app-barra-busqueda (codigoBarras)="buscarProducto($event)"/>
+<app-lista-productos [carritoProductos]="carritoVentas()"  [totalVenta]="totalVenta()" />

@@ -1,95 +1,69 @@
-import { Component, inject, effect , output, signal, input } from '@angular/core';
+import { Component, inject, input, signal, OnChanges, SimpleChanges } from '@angular/core';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
-import { ModalCerrarVenta } from '../modal-cerrar-venta/modal-cerrar-venta';
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 
 @Component({
   selector: 'app-carrito-compras',
-  imports: [BarraBusqueda, ListaProductos, ModalCerrarVenta],
+  imports: [BarraBusqueda, ListaProductos],
   templateUrl: './carrito-compras.html',
   styleUrl: './carrito-compras.css'
 })
-export class CarritoCompras {
+export class CarritoCompras implements OnChanges {
 
-  //Servicio de productos
-  productosService = inject(ProductoService);
-  carritoActualService = inject(CarritoVentaService);
+  // Servicio de productos y carrito
+  private productosService = inject(ProductoService);
+  private carritoActualService = inject(CarritoVentaService);
 
-  //Carrito
-  listaProductos = signal<DetalleVenta[]>([]);
-  carritoVentas = this.carritoActualService.getCarritoActual();
+  // Escucha directamente el signal del service
+  carritoVentas = this.carritoActualService.carritoSignal;
   totalVenta = signal<number>(0);
-  pagoCon = signal<number>(0);
-  cambio = signal<number>(0);
 
-  esVisibleModal=false;
+  // Contador de ventas cerradas desde el padre
+  conteoVentas = input<number>(0);
 
-  onTeclaEsc(){
-    this.esVisibleModal = true;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['conteoVentas'] && this.conteoVentas() > 0) {
+      console.log("Se ha cerrado una venta, vaciando carrito...");
+      this.resetCarrito();
+    }
   }
 
-
-  onPagoCon(n:number){
-    this.pagoCon.set(n);
-    console.log("Pago con: ", this.pagoCon())
-  }
-
-  onCambio(n:number){
-    this.cambio.set(n);
-  }
-
-  hideModal() {
-    console.log("Venta realizada con fecha: ", new Date().toLocaleString(),
-    "\nTotal: ", this.totalVenta(),
-    "\nPago Con", this.pagoCon(),
-    "\nCambio", this.cambio());
+  private resetCarrito() {
     this.carritoActualService.limpiarCarrito();
-    this.carritoActualService.carritoSignal.set([]);
-    this.esVisibleModal = false;
-    this.listaProductos.set([]);
     this.totalVenta.set(0);
   }
 
-  buscarProducto(codigo: string){
+  buscarProducto(codigo: string) {
     const encontrado = this.productosService.buscarPorCodigo(codigo);
-    //Agregar si esta 
-    if(encontrado){
+    if (encontrado) {
       this.agregarAlCarrito(encontrado);
     }
-  } 
+  }
 
-  agregarAlCarrito(producto: Producto){
-    const existente = this.listaProductos().find(item => item.id===producto.id);
-    if(existente){
-      existente.cantidad +=1;
+  agregarAlCarrito(producto: Producto) {
+    const existente = this.carritoActualService.getCarritoActual()
+      .find(item => item.id === producto.id);
+
+    if (existente) {
+      existente.cantidad += 1;
       existente.importe = existente.cantidad * existente.precioU;
-    }else{
-      const nuevoProducto = this.crearDetalle(producto);
-
-      this.carritoActualService.addProducto(nuevoProducto);//Agregar producto a carritoActual
-      this.listaProductos.update(list => [...list, nuevoProducto]);
-      console.log("Se agrego a carrito actual: ", this.carritoActualService.getCarritoActual())
+    } else {
+      this.carritoActualService.agregarAlCarrito(this.crearDetalle(producto));
     }
-    this.calcularTotal(this.listaProductos());
+
+    this.totalVenta.set(this.carritoActualService.calcularTotal());
   }
 
-  private crearDetalle(producto: Producto): DetalleVenta{
-    const detallesVenta:DetalleVenta = {
-      id:producto.id,
-      descripcion:producto.descripcion,
-      exis:producto.exis,
-      precioU:producto.precio_venta,
-      cantidad:1,
-      importe:producto.precio_venta*1
-    }
-    return detallesVenta;
+  private crearDetalle(producto: Producto): DetalleVenta {
+    return {
+      id: producto.id,
+      descripcion: producto.descripcion,
+      exis: producto.exis,
+      precioU: producto.precio_venta,
+      cantidad: 1,
+      importe: producto.precio_venta
+    };
   }
-
-  private calcularTotal(lista: DetalleVenta[]){
-    const total = lista.reduce((acumulado, valorActual) => acumulado + valorActual.importe, 0); 
-    this.totalVenta.update(() => total);
-  }
-
 }
