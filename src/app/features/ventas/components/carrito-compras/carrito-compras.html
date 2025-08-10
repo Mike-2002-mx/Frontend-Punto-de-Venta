@@ -1,2 +1,6 @@
 <app-barra-busqueda (codigoBarras)="buscarProducto($event)"/>
 <app-lista-productos [carritoProductos]="carritoVentas()"  [totalVenta]="totalVenta()" />
+
+@if(modalBuscarProductoVisible){
+    <app-buscar-producto-component  (productoSeleccionadoOutput)="onProductoSeleccionado($event)" (close)="hideModal()" />
+}

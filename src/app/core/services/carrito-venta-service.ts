@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 import { CarritoVenta } from '../interfaces/carrito-venta';
 
 @Injectable({

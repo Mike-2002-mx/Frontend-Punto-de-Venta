@@ -10,7 +10,8 @@ export class ListaProductos implements OnInit{
   ngOnInit(): void {
     console.log("Esto esta en lista productos: ", this.carritoProductos())
   }
-  carritoProductos = input<DetalleVenta[]>([]);
 
+  carritoProductos = input<DetalleVenta[]>([]);
   totalVenta = input<number>();
+  
 }

@@ -19,7 +19,4 @@ export class ListaProductosComponent {
     this.productoSeleccionado.emit(producto);
   }
 
-  algo(event: Event){
-    console.log("Tecla presionada:", event)
-  }
 }

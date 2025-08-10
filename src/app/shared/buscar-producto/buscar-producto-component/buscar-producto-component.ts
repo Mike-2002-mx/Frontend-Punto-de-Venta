@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { ListaProductosComponent } from "../lista-productos/lista-productos-component/lista-productos-component";
 import { ProductoService } from '../../../core/services/producto-service';
 import { BarraBusquedaComponent } from "../barra-busqueda/barra-busqueda-component/barra-busqueda-component";
@@ -11,6 +11,7 @@ import { BarraBusquedaComponent } from "../barra-busqueda/barra-busqueda-compone
 })
 
 export class BuscarProductoComponent implements OnInit {
+  
   ngOnInit(): void {
     const productos = this.productosService.productos();
     this.productosFiltrados.set(productos);
@@ -22,12 +23,18 @@ export class BuscarProductoComponent implements OnInit {
   palabraClave = signal('');
   productosFiltrados = signal<Producto[]>([]); 
   productoSeleccionado = signal<Producto|undefined>(undefined);
+  productoSeleccionadoOutput = output<Producto>();
   teclaArriba = signal<Event | undefined>(undefined);
   teclaAbajo = signal<Event | undefined>(undefined);
   teclaEnter = signal<Event | undefined>(undefined);
 
+  close = output<void>();
   
   indiceSeleccionado = signal<number>(-1);
+
+  closeModal() {
+    this.close.emit();
+  }
 
   onTeclaArriba(event: Event){
     console.log("Tecla arriba pulsada")
@@ -40,10 +47,15 @@ export class BuscarProductoComponent implements OnInit {
   }
 
   onTeclaEnter(event: Event){
-    console.log("El usuario dio enter en el indice: ", this.indiceSeleccionado());
-    this.teclaEnter.set(event);
     this.productoSeleccionado.update(() => this.productosFiltrados()[this.indiceSeleccionado()]);
-    console.log("El producto seleccionado es: ",this.productoSeleccionado());
+    const productoSeleccionado = this.productoSeleccionado();
+    if(productoSeleccionado){
+      console.log("Emitiendo producto", productoSeleccionado)
+      this.productoSeleccionadoOutput.emit(productoSeleccionado);
+    }else{
+      console.warn("algo malio sal");
+    }
+    this.closeModal();
   }
 
   navegarLista(direccion:number){

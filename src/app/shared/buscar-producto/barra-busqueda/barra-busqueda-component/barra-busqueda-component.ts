@@ -15,17 +15,17 @@ export class BarraBusquedaComponent {
   teclaEnter = output<Event>();
 
   onTeclaArriba(event: Event) {
-    event.preventDefault(); // ✋ Previene el comportamiento por defecto
+    event.preventDefault(); 
     this.teclaArriba.emit(event);
   }
 
   onTeclaAbajo(event: Event) {
-    event.preventDefault(); // ✋ Previene el comportamiento por defecto
+    event.preventDefault();
     this.teclaAbajo.emit(event);
   }
 
     onTeclaEnter(event: Event) {
-    event.preventDefault(); // ✋ Previene el comportamiento por defecto
+    event.preventDefault(); 
     this.teclaEnter.emit(event);
   }
 }

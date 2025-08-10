@@ -16,6 +16,7 @@ export class VentasPage {
   //Todo lo del modal cerrar venta
   modalCerrarVentaVisible = false;
   ventaCerrada = signal<number>(0);
+  modalProducto = signal<number>(0);
 
   showModal(){
     this.modalCerrarVentaVisible=true;
@@ -37,7 +38,8 @@ export class VentasPage {
   }
 
   buscarProducto(){
-    console.log("Boton Cerrar venta presionado se deberia activar el modal de buscar producto");
+    console.log("Boton buscar producto presionado se deberia activar el modal de buscar producto");
+    this.modalProducto.update(n => n+1);
   }
 
   removerProducto(){

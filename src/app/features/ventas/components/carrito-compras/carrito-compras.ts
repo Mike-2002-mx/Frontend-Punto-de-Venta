@@ -1,12 +1,15 @@
-import { Component, inject, input, signal, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, input, signal, OnChanges, SimpleChanges, computed, effect } from '@angular/core';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
+import { BarraBusquedaComponent } from "../../../../shared/buscar-producto/barra-busqueda/barra-busqueda-component/barra-busqueda-component";
+import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
+import { list } from 'postcss';
 
 @Component({
   selector: 'app-carrito-compras',
-  imports: [BarraBusqueda, ListaProductos],
+  imports: [BarraBusqueda, ListaProductos, BuscarProductoComponent],
   templateUrl: './carrito-compras.html',
   styleUrl: './carrito-compras.css'
 })
@@ -18,15 +21,37 @@ export class CarritoCompras implements OnChanges {
 
   // Escucha directamente el signal del service
   carritoVentas = this.carritoActualService.carritoSignal;
-  totalVenta = signal<number>(0);
+  totalVenta = signal<number>(this.carritoActualService.calcularTotal());
 
   // Contador de ventas cerradas desde el padre
   conteoVentas = input<number>(0);
+  activarModalBuscarProducto = input<number>(0);
+
+  modalBuscarProductoVisible = false;
+
+  onProductoSeleccionado(producto: Producto){
+    const detalleVenta:DetalleVenta = this.crearDetalle(producto);
+    this.carritoActualService.agregarAlCarrito(detalleVenta);
+    this.totalVenta.set(this.carritoActualService.calcularTotal());
+    console.log(" agregado correctamente:", detalleVenta)
+  }
+
+  showModal(){
+    this.modalBuscarProductoVisible = true;
+  }
+
+  hideModal() {
+    console.log("Esto deberia cerrar el modal");
+    this.modalBuscarProductoVisible=false;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['conteoVentas'] && this.conteoVentas() > 0) {
       console.log("Se ha cerrado una venta, vaciando carrito...");
       this.resetCarrito();
+    }
+    if(changes['activarModalBuscarProducto'] && this.activarModalBuscarProducto()>0){
+      this.showModal();
     }
   }
 
