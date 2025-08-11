@@ -1,4 +1,4 @@
-<div  >
+<div>
     <table>
         <thead>
         <tr>
@@ -10,9 +10,16 @@
         </tr>
         </thead>
         @if (carritoProductos() && carritoProductos().length > 0) {
-            <tbody>
+            <tbody 
+                tabindex="0"  
+                (keydown.arrowUp)="onTeclaArriba($event)"
+                (keydown.arrowDown)="onTeclaAbajo($event)"
+                (keydown)="onKeyDown($event)"
+            >
                 @for (producto of carritoProductos(); let i = $index; track producto.id) {
-                <tr  style="cursor: pointer;">
+                <tr  
+                    [class.selected]="indiceSeleccionado() === i"
+                    style="cursor: pointer;">
                     <th scope="row">{{ producto.descripcion }}</th>
                     <td>{{ producto.exis }}</td>
                     <td>{{ producto.precioU }}</td>

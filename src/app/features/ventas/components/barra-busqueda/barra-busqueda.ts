@@ -7,7 +7,7 @@ import { Component, output } from '@angular/core';
   styleUrl: './barra-busqueda.css'
 })
 export class BarraBusqueda {
-  codigoBarras = output<string>()
+  codigoBarras = output<string>();
 
   emitValue(value:string){  
     this.codigoBarras.emit(value);

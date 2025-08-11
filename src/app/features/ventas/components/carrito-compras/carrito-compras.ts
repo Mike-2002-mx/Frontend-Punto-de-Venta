@@ -23,6 +23,8 @@ export class CarritoCompras implements OnChanges {
   carritoVentas = this.carritoActualService.carritoSignal;
   totalVenta = signal<number>(this.carritoActualService.calcularTotal());
 
+  indiceSeleccionado = signal<number>(-1);
+
   // Contador de ventas cerradas desde el padre
   conteoVentas = input<number>(0);
   activarModalBuscarProducto = input<number>(0);
@@ -55,9 +57,54 @@ export class CarritoCompras implements OnChanges {
     }
   }
 
+  navegarLista(direccion:number){
+    const nuevoIndice = this.indiceSeleccionado() + direccion;
+    console.log("El indice ahora es: ", nuevoIndice);
+    if(nuevoIndice>=0 && nuevoIndice<this.carritoVentas().length){
+      this.indiceSeleccionado.set(nuevoIndice);
+    } else{
+      this.indiceSeleccionado.set(-1);
+    }
+  }
+
+
+  //Gestión del carrito
   private resetCarrito() {
     this.carritoActualService.limpiarCarrito();
     this.totalVenta.set(0);
+  }
+
+  sumarAlCarrito(){
+    const existente = this.carritoActualService.getCarritoActual()[this.indiceSeleccionado()];
+    if(existente){
+      existente.cantidad +=1;
+      existente.importe = existente.cantidad * existente.precioU;
+    }
+    this.totalVenta.set(this.carritoActualService.calcularTotal());
+  }
+
+  restarAlCarrito(){
+    const existente = this.carritoActualService.getCarritoActual()[this.indiceSeleccionado()];
+    if(existente.cantidad>1){
+      existente.cantidad -=1;
+      existente.importe = existente.cantidad * existente.precioU;
+    }
+    this.totalVenta.set(this.carritoActualService.calcularTotal());
+  }
+
+  removerProducto() {
+    const indice = this.indiceSeleccionado();
+    this.carritoVentas.update(productos => {
+      if (indice < 0 || indice >= productos.length) return productos; 
+      const nuevosProductos = productos.filter((_, i) => i !== indice);
+      
+      this.indiceSeleccionado.set(
+        nuevosProductos.length > 0
+          ? Math.max(0, indice - 1) 
+          : -1
+      );
+      return nuevosProductos;
+    });
   }
 
   buscarProducto(codigo: string) {
