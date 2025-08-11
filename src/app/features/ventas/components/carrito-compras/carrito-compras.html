@@ -1,4 +1,4 @@
-<app-barra-busqueda  (codigoBarras)="buscarProducto($event)"/>
+<app-barra-busqueda #inputCodigo (codigoBarras)="buscarProducto($event)"/>
 <app-lista-productos (teclaAbajo)="navegarLista(1)"  (teclaArriba)="navegarLista(-1)" (teclaSupr)="removerProducto() " (teclaMas)="sumarAlCarrito()" (teclaMenos)="restarAlCarrito()" [indiceSeleccionado]="indiceSeleccionado()" [carritoProductos]="carritoVentas()"  [totalVenta]="totalVenta()" />
 
 @if(modalBuscarProductoVisible){

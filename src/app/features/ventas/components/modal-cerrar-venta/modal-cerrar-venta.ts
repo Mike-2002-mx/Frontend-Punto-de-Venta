@@ -1,5 +1,4 @@
-import { CssSelector } from '@angular/compiler';
-import { AfterViewInit, Component, effect, ElementRef, inject, input, OnInit, output, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, output, signal, ViewChild } from '@angular/core';
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 
 @Component({
@@ -10,6 +9,7 @@ import { CarritoVentaService } from '../../../../core/services/carrito-venta-ser
 })
 export class ModalCerrarVenta {
 
+  //Injectamos servicio de carrito actual para saber que productos estan en el carrito de venta
   carritoActualService = inject(CarritoVentaService);
 
   ngOnInit(): void {
@@ -29,24 +29,24 @@ export class ModalCerrarVenta {
   totalVentaOuput = output<number>();
   isVentaCerrada = output<void>();
 
-    // Hacer más robusto este método
-  calcularCambio(pagoCon:number){
-    const total = this.totalVenta;
-    if(isNaN(pagoCon)){
-      const pago = total;
-      this.pagoCon.set(pago);
+  calcularCambio(pagoCon: number): void {
+    // Validación básica del input
+    if (typeof pagoCon !== 'number' || isNaN(pagoCon)) {
+      console.error("Error: Debes ingresar un valor numérico válido");
       this.cambio.set(0);
-      console.log("Deberias ingresar un valor")
+      return;
     }
-    const cambio = pagoCon-total;
-    if(cambio<0){
-      console.warn("El pago es insuficiente");
+    const total = this.totalVenta;
+    // Cálculo del cambio
+    const cambio = pagoCon - total;
+    // // Manejo de pago insuficiente
+    if (cambio < 0) {
+      console.warn("Advertencia: El pago es insuficiente. Faltan $" + Math.abs(cambio).toFixed(2));
     }
-    if(total!=undefined){
-      this.pagoCon.set(pagoCon);
-      this.cambio.set(cambio);
-      console.log(this.cambio());
-    }
+    // // Asignación de valores
+    this.pagoCon.set(pagoCon);
+    this.cambio.set(cambio);
+
   }
 
   //Esto es para dejar valor por defecto el input y 
@@ -61,24 +61,35 @@ export class ModalCerrarVenta {
   closeModal() {
     this.close.emit();
   }
-
+  
   cerrarVenta() {
-    const pago= this.pagoCon();
+    const pago = this.pagoCon();
     const cambio = this.cambio();
-    if(pago && cambio){
-      console.log("Emitiendo pago: ", pago);
-      console.log("Emitiendo cambio: ", cambio);
-      this.pagoConOutput.emit(pago);
-      this.cambioOutput.emit(cambio);
-    } 
-    //Logica para guardar la venta
+
+    if (typeof pago !== 'number' || isNaN(pago)) {
+      console.error("Pago inválido, no se puede cerrar la venta");
+      return;
+    }
+
+    if (typeof cambio !== 'number' || isNaN(cambio)) {
+      console.error("Cambio inválido, no se puede cerrar la venta");
+      return;
+    }
+
+    if (pago < this.totalVenta) {
+      console.warn("Pago insuficiente, no se puede cerrar la venta");
+      return;
+    }
+
+    console.log("Emitiendo pago:", pago);
+    console.log("Emitiendo cambio:", cambio);
+
+    this.pagoConOutput.emit(pago);
+    this.cambioOutput.emit(cambio);
     this.isVentaCerrada.emit();
     this.carritoActualService.carritoSignal.set([]);
     this.close.emit();
   }
-
-
-
 
 
 }

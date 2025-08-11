@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, ElementRef, output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-barra-busqueda',
@@ -11,6 +11,18 @@ export class BarraBusqueda {
 
   emitValue(value:string){  
     this.codigoBarras.emit(value);
+  }
+
+  //Esto es para dejar valor por defecto el input y 
+  //que ya se encuentre seleccionado para facilidad
+  @ViewChild('txtCodigo') inputCodigo!: ElementRef<HTMLInputElement>;
+  resetCodigoInput() {
+    "se deberia resetear todoooo"
+    if (this.inputCodigo) {
+      this.inputCodigo.nativeElement.value = ''; 
+      this.inputCodigo.nativeElement.focus();
+      this.inputCodigo.nativeElement.select();
+    }
   }
 
 }

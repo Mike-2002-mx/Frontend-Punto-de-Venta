@@ -1,4 +1,4 @@
-import { Component, inject, input, signal, OnChanges, SimpleChanges, computed, effect } from '@angular/core';
+import { Component, inject, input, signal, OnChanges, SimpleChanges, computed, effect, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
@@ -28,6 +28,7 @@ export class CarritoCompras implements OnChanges {
   // Contador de ventas cerradas desde el padre
   conteoVentas = input<number>(0);
   activarModalBuscarProducto = input<number>(0);
+  productoRemovido = input<number>(0);
 
   modalBuscarProductoVisible = false;
 
@@ -47,13 +48,19 @@ export class CarritoCompras implements OnChanges {
     this.modalBuscarProductoVisible=false;
   }
 
+  @ViewChild(BarraBusqueda) barraBusqueda!: BarraBusqueda;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['conteoVentas'] && this.conteoVentas() > 0) {
       console.log("Se ha cerrado una venta, vaciando carrito...");
+      this.barraBusqueda.resetCodigoInput();
       this.resetCarrito();
     }
     if(changes['activarModalBuscarProducto'] && this.activarModalBuscarProducto()>0){
       this.showModal();
+    }
+    if(changes['productoRemovido'] && this.indiceSeleccionado()>=0){
+      this.removerProducto();
     }
   }
 
@@ -67,7 +74,6 @@ export class CarritoCompras implements OnChanges {
     }
   }
 
-
   //Gestión del carrito
   private resetCarrito() {
     this.carritoActualService.limpiarCarrito();
@@ -76,7 +82,10 @@ export class CarritoCompras implements OnChanges {
 
   sumarAlCarrito(){
     const existente = this.carritoActualService.getCarritoActual()[this.indiceSeleccionado()];
-    if(existente){
+    if(existente.cantidad >= existente.exis){
+      console.log("Ya no hay existencias");
+      return;
+    }else{
       existente.cantidad +=1;
       existente.importe = existente.cantidad * existente.precioU;
     }
@@ -105,6 +114,7 @@ export class CarritoCompras implements OnChanges {
       );
       return nuevosProductos;
     });
+    this.totalVenta.set(this.carritoActualService.calcularTotal());
   }
 
   buscarProducto(codigo: string) {
@@ -115,12 +125,24 @@ export class CarritoCompras implements OnChanges {
   }
 
   agregarAlCarrito(producto: Producto) {
-    const existente = this.carritoActualService.getCarritoActual()
-      .find(item => item.id === producto.id);
+    if (!producto || typeof producto.id === "undefined") {
+      console.error("Producto inválido, no se puede agregar al carrito");
+      return;
+    }
+
+    const carrito = this.carritoActualService.getCarritoActual();
+    const existente = carrito.find(item => item.id === producto.id);
 
     if (existente) {
+      // Validar existencias
+      if (existente.cantidad >= existente.exis) {
+        console.warn(`No hay más existencias de: ${producto.descripcion ?? "Producto sin nombre"}`);
+        return;
+      }
+
       existente.cantidad += 1;
-      existente.importe = existente.cantidad * existente.precioU;
+      existente.importe = existente.cantidad * (existente.precioU ?? 0);
+
     } else {
       this.carritoActualService.agregarAlCarrito(this.crearDetalle(producto));
     }
@@ -138,4 +160,14 @@ export class CarritoCompras implements OnChanges {
       importe: producto.precio_venta
     };
   }
+
+  //
+  @HostListener('window:keydown', ['$event'])
+  onCtrlB(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key.toLowerCase() === 'b') {
+      event.preventDefault();
+      this.showModal();
+    }
+  }
+
 }

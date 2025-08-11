@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, input, output, Signal, signal } from '@angular/core';
+import { Component, HostListener, inject, input, output, Signal, signal, ViewChild } from '@angular/core';
 import { CarritoCompras } from "../../components/carrito-compras/carrito-compras";
 import { Navbar } from "../../../../shared/navbar/navbar";
 import { CintaOpciones } from "../../components/cinta-opciones/cinta-opciones";
@@ -13,10 +13,13 @@ import { CarritoVentaService } from '../../../../core/services/carrito-venta-ser
 })
 export class VentasPage {
 
+  carritoService = inject(CarritoVentaService);
+
   //Todo lo del modal cerrar venta
   modalCerrarVentaVisible = false;
   ventaCerrada = signal<number>(0);
   modalProducto = signal<number>(0);
+  numeroProductoRemovido = signal<number>(0);
 
   showModal(){
     this.modalCerrarVentaVisible=true;
@@ -34,6 +37,10 @@ export class VentasPage {
 
   cerrarVenta(){
     console.log("Boton Cerrar venta presionado deberia abrirse un modal para cerrar venta");
+      if(this.carritoService.getCarritoActual().length<=0){
+        alert("No se pueden cerrar venta sin productos")
+        return;
+      }
     this.showModal(); 
   }
 
@@ -43,12 +50,17 @@ export class VentasPage {
   }
 
   removerProducto(){
-    console.log("Boton Cerrar venta presionado");
+    this.numeroProductoRemovido.update(n => n+1);
+    console.log("Ventas page ha escuchado supr", this.numeroProductoRemovido());
   }
 
   @HostListener('window:keydown.escape', ['$event'])
     onEsc(event: Event) {
-    this.showModal();
-  }
+      if(this.carritoService.getCarritoActual().length<=0){
+        alert("No se pueden cerrar venta sin productos")
+        return;
+      }
+      this.showModal();
+    }
 
 }
