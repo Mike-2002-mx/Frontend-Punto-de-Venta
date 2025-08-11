@@ -18,7 +18,10 @@
             >
                 @for (producto of carritoProductos(); let i = $index; track producto.id) {
                 <tr  
-                    [class.selected]="indiceSeleccionado() === i"
+                    [class.selected]="indiceSeleccionado() === i || indiceHover === i" 
+                    (mouseenter)="indiceHover = i"
+                    (mouseleave)="indiceHover = null"
+                    (click)="seleccionarIndiceProducto(i)"
                     style="cursor: pointer;">
                     <th scope="row">{{ producto.descripcion }}</th>
                     <td>{{ producto.exis }}</td>

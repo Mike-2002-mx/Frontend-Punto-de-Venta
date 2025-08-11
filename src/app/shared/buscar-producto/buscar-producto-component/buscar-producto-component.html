@@ -26,7 +26,7 @@
 
 <div class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()" >
-        <app-barra-busqueda-component (teclaEnter)="onTeclaEnter($event)" (palabraClave)="filtrarProducto($event)" (teclaAbajo)="navegarLista(1)"  (teclaArriba)="navegarLista(-1)"/>
+        <app-barra-busqueda-component (teclaEnter)="onTeclaEnter()" (palabraClave)="filtrarProducto($event)" (teclaAbajo)="navegarLista(1)"  (teclaArriba)="navegarLista(-1)"/>
         <app-lista-productos-component (productoSeleccionado)="onProductoSeleccionado($event)" [productosFiltrados]="productosFiltrados()" [indiceSeleccionado]="indiceSeleccionado()"/>
     </div>
 </div>

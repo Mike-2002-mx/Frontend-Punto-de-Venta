@@ -7,9 +7,10 @@ import { Component, ElementRef, input, OnInit, output, signal, ViewChild } from 
   styleUrl: './lista-productos-component.css'
 })
 export class ListaProductosComponent {
+
+  indiceHover: number | null = null;
   //Recibe del componente padre
   productosFiltrados = input<Producto[]>();
-
   indiceSeleccionado = input<number>();
 
   //Manda al padre

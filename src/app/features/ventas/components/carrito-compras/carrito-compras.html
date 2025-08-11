@@ -1,6 +1,19 @@
 <app-barra-busqueda #inputCodigo (codigoBarras)="buscarProducto($event)"/>
-<app-lista-productos (teclaAbajo)="navegarLista(1)"  (teclaArriba)="navegarLista(-1)" (teclaSupr)="removerProducto() " (teclaMas)="sumarAlCarrito()" (teclaMenos)="restarAlCarrito()" [indiceSeleccionado]="indiceSeleccionado()" [carritoProductos]="carritoVentas()"  [totalVenta]="totalVenta()" />
+<app-lista-productos 
+    (teclaAbajo)="navegarLista(1)"  
+    (teclaArriba)="navegarLista(-1)" 
+    (teclaSupr)="removerProducto() " 
+    (teclaMas)="sumarAlCarrito()" 
+    (teclaMenos)="restarAlCarrito()" 
+    (actualizarIndiceClic)="onActualizarIndiceConCli($event)"
+    [indiceSeleccionado]="indiceSeleccionado()" 
+    [carritoProductos]="carritoVentas()"  
+    [totalVenta]="totalVenta()" 
+/>
 
 @if(modalBuscarProductoVisible){
-    <app-buscar-producto-component  (productoSeleccionadoOutput)="onProductoSeleccionado($event)" (close)="hideModal()" />
+    <app-buscar-producto-component  
+        (productoSeleccionadoOutput)="onProductoSeleccionado($event)" 
+        (close)="hideModal()" 
+    />
 }

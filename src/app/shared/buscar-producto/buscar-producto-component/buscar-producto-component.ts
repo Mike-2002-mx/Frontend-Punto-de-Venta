@@ -46,8 +46,7 @@ export class BuscarProductoComponent implements OnInit {
     this.teclaAbajo.set(event);
   }
 
-  onTeclaEnter(event: Event){
-    this.productoSeleccionado.update(() => this.productosFiltrados()[this.indiceSeleccionado()]);
+  onTeclaEnter(){
     const productoSeleccionado = this.productoSeleccionado();
     if(productoSeleccionado){
       console.log("Emitiendo producto", productoSeleccionado)
@@ -79,8 +78,8 @@ export class BuscarProductoComponent implements OnInit {
   }
 
   onProductoSeleccionado(producto: Producto){
-    console.log("PRoducto seleccionado: ", producto)
-    this.productoSeleccionado.set(producto)
+    this.productoSeleccionadoOutput.emit(producto);
+    this.closeModal();
   }
 
 }

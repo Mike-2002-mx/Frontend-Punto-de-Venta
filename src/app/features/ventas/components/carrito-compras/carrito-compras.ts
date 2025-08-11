@@ -3,9 +3,7 @@ import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
-import { BarraBusquedaComponent } from "../../../../shared/buscar-producto/barra-busqueda/barra-busqueda-component/barra-busqueda-component";
 import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
-import { list } from 'postcss';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -37,6 +35,10 @@ export class CarritoCompras implements OnChanges {
     this.carritoActualService.agregarAlCarrito(detalleVenta);
     this.totalVenta.set(this.carritoActualService.calcularTotal());
     console.log(" agregado correctamente:", detalleVenta)
+  }
+
+  onActualizarIndiceConCli(n: number) {
+    this.indiceSeleccionado.set(n);
   }
 
   showModal(){

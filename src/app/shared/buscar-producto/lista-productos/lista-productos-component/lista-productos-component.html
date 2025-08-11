@@ -13,7 +13,14 @@
         @if (productosFiltrados() && productosFiltrados()!.length > 0) {
             <tbody>
                 @for (producto of productosFiltrados(); let i = $index; track producto.id) {
-                <tr tabindex="0" [class.selected]="indiceSeleccionado() === i" (dblclick)="seleccionarProducto(producto)"  (keydown.enter)="seleccionarProducto(producto)" style="cursor: pointer;">
+                <tr 
+                    tabindex="0" 
+                    (mouseenter)="indiceHover = i"
+                    (mouseleave)="indiceHover = null"
+                    (dblclick)="seleccionarProducto(producto)"  
+                    (keydown.enter)="seleccionarProducto(producto)" 
+                    [class.selected]="indiceSeleccionado() === i || indiceHover === i" 
+                    style="cursor: pointer;">
                     <th scope="row">{{ producto.cod_barras }}</th>
                     <td> {{ producto.descripcion }}</td>
                     <td>{{ producto.exis }}</td>

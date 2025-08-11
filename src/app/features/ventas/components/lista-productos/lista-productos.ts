@@ -12,10 +12,13 @@ export class ListaProductos implements OnInit{
     console.log("Esto esta en lista productos: ", this.carritoProductos())
   }
 
+  indiceHover: number | null = null;
+
   carritoProductos = input<DetalleVenta[]>([]);
   totalVenta = input<number>();
   indiceSeleccionado = input<number>();
 
+  actualizarIndiceClic = output<number>();
   teclaArriba = output<Event>();
   teclaAbajo = output<Event>();
   teclaMas = output<Event>();
@@ -44,5 +47,9 @@ export class ListaProductos implements OnInit{
     }
   }
 
+  seleccionarIndiceProducto(indice: number) {
+    console.log(indice);
+    this.actualizarIndiceClic.emit(indice);
+  }
   
 }
