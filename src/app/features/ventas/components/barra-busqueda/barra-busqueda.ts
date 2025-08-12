@@ -10,6 +10,7 @@ export class BarraBusqueda {
   codigoBarras = output<string>();
 
   emitValue(value:string){  
+    console.log("Codigo emitido", value);
     this.codigoBarras.emit(value);
   }
 

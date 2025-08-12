@@ -21,12 +21,12 @@
                     (keydown.enter)="seleccionarProducto(producto)" 
                     [class.selected]="indiceSeleccionado() === i || indiceHover === i" 
                     style="cursor: pointer;">
-                    <th scope="row">{{ producto.cod_barras }}</th>
+                    <th scope="row">{{ producto.codigoBarras }}</th>
                     <td> {{ producto.descripcion }}</td>
-                    <td>{{ producto.exis }}</td>
-                    <td>{{ producto.stock_min }}</td>
-                    <td>{{ producto.precio_venta }}</td>
-                    <td>{{ producto.precio_compra }}</td>
+                    <td>{{ producto.stockActual }}</td>
+                    <td>{{ producto.stockMinimo }}</td>
+                    <td>{{ producto.precioVenta }}</td>
+                    <td>{{ producto.precioCompra }}</td>
                 </tr>
                 }
             </tbody>

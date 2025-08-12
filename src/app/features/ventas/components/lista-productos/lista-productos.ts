@@ -1,4 +1,5 @@
 import { Component, effect, input, model, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
+import { CarritoVenta } from '../../../../core/interfaces/carrito-venta';
 
 @Component({
   selector: 'app-lista-productos',
@@ -14,7 +15,7 @@ export class ListaProductos implements OnInit{
 
   indiceHover: number | null = null;
 
-  carritoProductos = input<DetalleVenta[]>([]);
+  carritoProductos = input<CarritoVenta[]>([]);
   totalVenta = input<number>();
   indiceSeleccionado = input<number>();
 

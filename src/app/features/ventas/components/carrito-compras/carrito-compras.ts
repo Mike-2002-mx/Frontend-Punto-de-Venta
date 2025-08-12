@@ -1,9 +1,12 @@
-import { Component, inject, input, signal, OnChanges, SimpleChanges, computed, effect, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, input, signal, OnChanges, SimpleChanges, computed, effect, HostListener, ViewChild, ElementRef, Signal } from '@angular/core';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CarritoVenta } from '../../../../core/interfaces/carrito-venta';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -119,16 +122,23 @@ export class CarritoCompras implements OnChanges {
     this.totalVenta.set(this.carritoActualService.calcularTotal());
   }
 
-  buscarProducto(codigo: string) {
-    const encontrado = this.productosService.buscarPorCodigo(codigo);
-    if (encontrado) {
-      this.agregarAlCarrito(encontrado);
-    }
-  }
+buscarProducto(codigo: string) {
+  console.log("Codigo",codigo);
+  this.productosService.buscarPorCodigo(codigo)
+    .pipe(
+      tap(producto => {
+        if (producto) {
+          this.agregarAlCarrito(producto);
+        }
+      })
+    )
+    .subscribe();
+}
 
   agregarAlCarrito(producto: Producto) {
     if (!producto || typeof producto.id === "undefined") {
-      console.error("Producto inválido, no se puede agregar al carrito");
+
+      console.error(producto, "Producto inválido, no se puede agregar al carrito");
       return;
     }
 
@@ -156,10 +166,10 @@ export class CarritoCompras implements OnChanges {
     return {
       id: producto.id,
       descripcion: producto.descripcion,
-      exis: producto.exis,
-      precioU: producto.precio_venta,
+      exis: producto.stockActual,
+      precioU: producto.precioVenta,
       cantidad: 1,
-      importe: producto.precio_venta
+      importe: producto.precioVenta
     };
   }
 
