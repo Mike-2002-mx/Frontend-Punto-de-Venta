@@ -35,7 +35,7 @@ export class CarritoCompras implements OnChanges {
 
   onProductoSeleccionado(producto: Producto){
     const detalleVenta:DetalleVenta = this.crearDetalle(producto);
-    this.carritoActualService.agregarAlCarrito(detalleVenta);
+    this.agregarAlCarrito(producto);
     this.totalVenta.set(this.carritoActualService.calcularTotal());
     console.log(" agregado correctamente:", detalleVenta)
   }
@@ -51,6 +51,7 @@ export class CarritoCompras implements OnChanges {
   hideModal() {
     console.log("Esto deberia cerrar el modal");
     this.modalBuscarProductoVisible=false;
+    this.barraBusqueda.resetCodigoInput();
   }
 
   @ViewChild(BarraBusqueda) barraBusqueda!: BarraBusqueda;

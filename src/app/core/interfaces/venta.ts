@@ -7,5 +7,5 @@ export interface Venta {
     total:number;
     pagoCon:number;
     cambio:number;
-    // productoVendidos:CarritoVenta[];
+    productoVendidos:CarritoVenta[];
 }

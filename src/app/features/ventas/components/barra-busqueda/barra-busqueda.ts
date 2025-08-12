@@ -18,7 +18,7 @@ export class BarraBusqueda {
   //que ya se encuentre seleccionado para facilidad
   @ViewChild('txtCodigo') inputCodigo!: ElementRef<HTMLInputElement>;
   resetCodigoInput() {
-    "se deberia resetear todoooo"
+    "se deberia resetear todo"
     if (this.inputCodigo) {
       this.inputCodigo.nativeElement.value = ''; 
       this.inputCodigo.nativeElement.focus();

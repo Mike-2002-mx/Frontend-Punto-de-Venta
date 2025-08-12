@@ -19,6 +19,5 @@ export class ProductoService {
 
   buscarPorPalabraClave(palabra:string):Observable<Producto[]>{
     return this.http.get<Producto[]>(`${environment.apiUrl}/search/${palabra}`);
-    // return this.productos().filter(p=>p.descripcion.toLowerCase().includes(palabra.toLowerCase()));
   }
 }

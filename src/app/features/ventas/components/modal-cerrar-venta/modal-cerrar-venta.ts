@@ -1,5 +1,9 @@
 import { Component, ElementRef, inject, output, signal, ViewChild } from '@angular/core';
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
+import { VentaService } from '../../../../core/services/venta-service';
+import { DetallesVentaRequest, VentaRequest } from '../../../../core/interfaces/venta-request';
+import { CarritoVenta } from '../../../../core/interfaces/carrito-venta';
+import { Venta } from '../../../../core/interfaces/venta';
 
 @Component({
   selector: 'app-modal-cerrar-venta',
@@ -11,6 +15,7 @@ export class ModalCerrarVenta {
 
   //Injectamos servicio de carrito actual para saber que productos estan en el carrito de venta
   carritoActualService = inject(CarritoVentaService);
+  ventaService = inject(VentaService);
 
   ngOnInit(): void {
     console.log("Total venta es: ", this.totalVenta);
@@ -83,12 +88,37 @@ export class ModalCerrarVenta {
 
     console.log("Emitiendo pago:", pago);
     console.log("Emitiendo cambio:", cambio);
+    const carrito:DetallesVentaRequest[]=this.toVentaResponse(this.carritoActualService.getCarritoActual());
+    const nuevaVenta:VentaRequest= {
+      total: this.carritoActualService.calcularTotal(),
+      pagoCon: pago,
+      productos: carrito
+    }
+
+    this.ventaService.crearVenta(nuevaVenta).subscribe({
+      next:(ventaCreada)=>{
+        console.log('Venta creada con éxito:', ventaCreada);
+        alert('Venta registrada correctamente!');
+      },
+      error: (error) => {
+        console.error('Error al crear la venta:', error);
+        alert('Ocurrió un error al registrar la venta');
+      }
+    });
+
 
     this.pagoConOutput.emit(pago);
     this.cambioOutput.emit(cambio);
     this.isVentaCerrada.emit();
     this.carritoActualService.carritoSignal.set([]);
     this.close.emit();
+  }
+
+  private toVentaResponse(carrito:CarritoVenta[]):DetallesVentaRequest[]{
+      return carrito.map(item => ({
+        idProducto: item.id, 
+        cantidad: item.cantidad
+    }));
   }
 
 

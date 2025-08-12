@@ -24,7 +24,7 @@ export class BarraBusquedaComponent {
     this.teclaAbajo.emit(event);
   }
 
-    onTeclaEnter(event: Event) {
+  onTeclaEnter(event: Event) {
     event.preventDefault(); 
     this.teclaEnter.emit(event);
   }
