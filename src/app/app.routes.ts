@@ -5,6 +5,7 @@ import { VentasPage } from './features/ventas/pages/ventas-page/ventas-page';
 import { ComprasPage } from './features/compras/pages/compras-page/compras-page';
 import { InventarioPage } from './features/inventario/pages/inventario-page/inventario-page';
 import { HistorialPage } from './features/historial/pages/historial-page/historial-page';
+import { AgregarProductoComponent } from './features/inventario/components/agregar-producto-component/agregar-producto-component';
 
 export const routes: Routes = [
     {path:"ventas-page", component:VentasPage},
@@ -13,5 +14,6 @@ export const routes: Routes = [
     {path:"historial-page", component:HistorialPage},
     {path:"carrito", component:CarritoCompras},
     {path:"buscar-producto", component:BuscarProductoComponent},
-    {path:"**", redirectTo:"ventas-page"}
+    {path:"agregar-producto", component:AgregarProductoComponent},
+    {path:"**", redirectTo:"agregar-producto"}
 ];

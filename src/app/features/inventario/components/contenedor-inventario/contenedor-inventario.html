@@ -1,0 +1,11 @@
+<app-barra-busqueda-inventario 
+    (teclaEnter)="onTeclaEnter()" 
+    (palabraClave)="filtrarProducto($event)"
+    (teclaAbajo)="navegarLista(1)" 
+    (teclaArriba)="navegarLista(-1)" 
+/>
+<app-lista-productos-inventario 
+    (productoSeleccionado)="onProductoSeleccionado($event)"
+    [productosFiltrados]="productosFiltrados()" 
+    [indiceSeleccionado]="indiceSeleccionado()" 
+/>

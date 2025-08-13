@@ -1,0 +1,12 @@
+<div>
+    <input 
+        autofocus
+        type="text"
+        placeholder="Buscar producto..."
+        (input)="palabraClave.emit(txtPalabra.value)"
+        (keydown.arrowUp)="onTeclaArriba($event)"
+        (keydown.arrowDown)="onTeclaAbajo($event)" 
+        (keydown.enter)="onTeclaEnter($event)" 
+        #txtPalabra
+    >
+</div>

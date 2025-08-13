@@ -1,5 +1,5 @@
 import { Injectable, Signal, signal } from '@angular/core';
-import { CarritoVenta } from '../interfaces/carrito-venta';
+import { CarritoVenta } from '../../features/ventas/interfaces/carrito-venta';
 
 @Injectable({
   providedIn: 'root'

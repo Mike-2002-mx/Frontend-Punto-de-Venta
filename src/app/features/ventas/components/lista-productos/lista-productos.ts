@@ -1,5 +1,5 @@
-import { Component, effect, input, model, OnChanges, OnInit, output, signal, SimpleChanges } from '@angular/core';
-import { CarritoVenta } from '../../../../core/interfaces/carrito-venta';
+import { Component, input, OnInit, output } from '@angular/core';
+import { CarritoVenta } from '../../interfaces/carrito-venta';
 
 @Component({
   selector: 'app-lista-productos',

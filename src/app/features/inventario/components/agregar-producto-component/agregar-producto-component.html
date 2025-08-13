@@ -1,0 +1,128 @@
+<form [formGroup]="productoForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Código de Barras -->
+    <div class="form-group">
+        <label for="codigoBarras">Código de Barras</label>
+        <input type="text" id="codigoBarras" formControlName="codigoBarras" class="form-control">
+        @if (productoForm.get('codigoBarras')?.invalid && productoForm.get('codigoBarras')?.touched) {
+        <div class="text-danger">
+            @if (productoForm.get('codigoBarras')?.errors?.['required']) {
+            <div>El código de barras no puede estar vacío</div>
+            }
+            @if (productoForm.get('codigoBarras')?.errors?.['maxlength']) {
+            <div>El código de barras no puede exceder los 20 caracteres</div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Categoría -->
+    <div class="form-group">
+        <label for="idCategoria">Categoría</label>
+        <select id="idCategoria" formControlName="idCategoria" class="form-control">
+            <option value="">Seleccione una categoría</option>
+            @for (categoria of categorias; track categoria.id) {
+            <option [value]="categoria.id">{{categoria.nombre}}</option>
+            }
+        </select>
+        @if (productoForm.get('idCategoria')?.invalid && productoForm.get('idCategoria')?.touched) {
+        <div class="text-danger">La categoría es obligatoria</div>
+        }
+    </div>
+
+    <!-- Proveedor -->
+    <div class="form-group">
+        <label for="idProveedor">Proveedor</label>
+        <select id="idProveedor" formControlName="idProveedor" class="form-control">
+            <option value="">Seleccione un proveedor</option>
+            @for (proveedor of proveedores; track proveedor.id) {
+            <option [value]="proveedor.id">{{proveedor.nombre}}</option>
+            }
+        </select>
+        @if (productoForm.get('idProveedor')?.invalid && productoForm.get('idProveedor')?.touched) {
+        <div class="text-danger">El proveedor es obligatorio</div>
+        }
+    </div>
+
+    <!-- Descripción -->
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion" class="form-control" rows="3"></textarea>
+        @if (productoForm.get('descripcion')?.invalid && productoForm.get('descripcion')?.touched) {
+        <div class="text-danger">
+            @if (productoForm.get('descripcion')?.errors?.['required']) {
+            <div>La descripción no puede estar vacía</div>
+            }
+            @if (productoForm.get('descripcion')?.errors?.['maxlength']) {
+            <div>La descripción no puede exceder los 255 caracteres</div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Precio de Venta -->
+    <div class="form-group">
+        <label for="precioVenta">Precio de Venta</label>
+        <input type="number" step="0.01" id="precioVenta" formControlName="precioVenta" class="form-control" min="0.01">
+        @if (productoForm.get('precioVenta')?.invalid && productoForm.get('precioVenta')?.touched) {
+        <div class="text-danger">
+            @if (productoForm.get('precioVenta')?.errors?.['required']) {
+            <div>El precio de venta es obligatorio</div>
+            }
+            @if (productoForm.get('precioVenta')?.errors?.['min']) {
+            <div>El precio de venta debe ser mayor que 0</div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Precio de Compra -->
+    <div class="form-group">
+        <label for="precioCompra">Precio de Compra</label>
+        <input type="number" step="0.01" id="precioCompra" formControlName="precioCompra" class="form-control"
+            min="0.01">
+        @if (productoForm.get('precioCompra')?.invalid && productoForm.get('precioCompra')?.touched) {
+        <div class="text-danger">
+            @if (productoForm.get('precioCompra')?.errors?.['required']) {
+            <div>El precio de compra es obligatorio</div>
+            }
+            @if (productoForm.get('precioCompra')?.errors?.['min']) {
+            <div>El precio de compra debe ser mayor que 0</div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Stock Actual -->
+    <div class="form-group">
+        <label for="stockActual">Stock Actual</label>
+        <input type="number" id="stockActual" formControlName="stockActual" class="form-control" min="0">
+        @if (productoForm.get('stockActual')?.invalid && productoForm.get('stockActual')?.touched) {
+        <div class="text-danger">
+            @if (productoForm.get('stockActual')?.errors?.['required']) {
+            <div>El stock actual es obligatorio</div>
+            }
+            @if (productoForm.get('stockActual')?.errors?.['min']) {
+            <div>El stock actual no puede ser negativo</div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Stock Mínimo -->
+    <div class="form-group">
+        <label for="stockMinimo">Stock Mínimo</label>
+        <input type="number" id="stockMinimo" formControlName="stockMinimo" class="form-control" min="0">
+        @if (productoForm.get('stockMinimo')?.invalid && productoForm.get('stockMinimo')?.touched) {
+        <div class="text-danger">
+            @if (productoForm.get('stockMinimo')?.errors?.['required']) {
+            <div>El stock mínimo es obligatorio</div>
+            }
+            @if (productoForm.get('stockMinimo')?.errors?.['min']) {
+            <div>El stock mínimo no puede ser negativo</div>
+            }
+        </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="productoForm.invalid">Guardar Producto</button>
+</form>

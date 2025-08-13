@@ -1,9 +1,9 @@
 import { Component, ElementRef, inject, output, signal, ViewChild } from '@angular/core';
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 import { VentaService } from '../../../../core/services/venta-service';
-import { DetallesVentaRequest, VentaRequest } from '../../../../core/interfaces/venta-request';
-import { CarritoVenta } from '../../../../core/interfaces/carrito-venta';
 import { Venta } from '../../../../core/interfaces/venta';
+import { DetallesVentaRequest, VentaRequest } from '../../interfaces/venta-request';
+import { CarritoVenta } from '../../interfaces/carrito-venta';
 
 @Component({
   selector: 'app-modal-cerrar-venta',

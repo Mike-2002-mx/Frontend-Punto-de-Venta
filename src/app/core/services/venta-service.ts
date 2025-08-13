@@ -3,7 +3,7 @@ import { Venta } from '../interfaces/venta';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { VentaRequest } from '../interfaces/venta-request';
+import { VentaRequest } from '../../features/ventas/interfaces/venta-request';
 
 @Injectable({
   providedIn: 'root'

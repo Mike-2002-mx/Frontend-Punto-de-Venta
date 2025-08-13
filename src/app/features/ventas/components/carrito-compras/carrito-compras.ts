@@ -4,9 +4,8 @@ import { BarraBusqueda } from "../barra-busqueda/barra-busqueda";
 import { ListaProductos } from "../lista-productos/lista-productos";
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
-import { toSignal } from '@angular/core/rxjs-interop';
-import { CarritoVenta } from '../../../../core/interfaces/carrito-venta';
 import { tap } from 'rxjs/operators';
+import { CarritoVenta } from '../../interfaces/carrito-venta';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -34,7 +33,7 @@ export class CarritoCompras implements OnChanges {
   modalBuscarProductoVisible = false;
 
   onProductoSeleccionado(producto: Producto){
-    const detalleVenta:DetalleVenta = this.crearDetalle(producto);
+    const detalleVenta:CarritoVenta = this.crearDetalle(producto);
     this.agregarAlCarrito(producto);
     this.totalVenta.set(this.carritoActualService.calcularTotal());
     console.log(" agregado correctamente:", detalleVenta)
@@ -163,7 +162,7 @@ buscarProducto(codigo: string) {
     this.totalVenta.set(this.carritoActualService.calcularTotal());
   }
 
-  private crearDetalle(producto: Producto): DetalleVenta {
+  private crearDetalle(producto: Producto): CarritoVenta {
     return {
       id: producto.id,
       descripcion: producto.descripcion,

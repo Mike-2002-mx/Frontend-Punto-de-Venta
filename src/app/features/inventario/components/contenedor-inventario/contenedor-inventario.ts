@@ -1,0 +1,97 @@
+import { Component, inject, output, signal } from '@angular/core';
+import { BarraBusquedaInventario } from "../barra-busqueda-inventario/barra-busqueda-inventario";
+import { ProductoService } from '../../../../core/services/producto-service';
+import { ListaProductosInventario } from "../lista-productos-inventario/lista-productos-inventario";
+
+@Component({
+  selector: 'app-contenedor-inventario',
+  imports: [BarraBusquedaInventario, ListaProductosInventario],
+  templateUrl: './contenedor-inventario.html',
+  styleUrl: './contenedor-inventario.css'
+})
+export class ContenedorInventario {
+  private productosService = inject(ProductoService);
+
+  // Signal para guardar palabras clave
+  productosFiltrados = signal<Producto[]>([]);
+  productos= signal<Producto[]>([]);
+  productoSeleccionado = signal<Producto | undefined>(undefined);
+  productoSeleccionadoOutput = output<Producto>();
+  errorMessage = signal<string>('');
+  close = output<void>();
+  indiceSeleccionado = signal<number>(-1);
+
+  //Cargar productos al iniciar
+  constructor() {
+    this.cargarProductos();
+  }
+
+  private cargarProductos():void{
+    this.productosService.getProductos().subscribe({
+      next: (productos) => this.productos.set(productos),
+      error: (err) => this.handleError(err)
+    });
+    this.productosService.getProductos().subscribe({
+      next: (productos) => this.productosFiltrados.set(productos),
+      error: (err) => this.handleError(err)
+    });
+  }
+
+  private handleError(err: any): void {
+    this.errorMessage.set("Error al obtener productos");
+    console.error(err);
+    this.productosFiltrados.set([]);
+  }
+
+  closeModal() {
+    this.close.emit();
+  }
+
+  onTeclaArriba(event: Event) {
+    console.log("Tecla arriba pulsada");
+    this.navegarLista(-1);
+  }
+
+  onTeclaAbajo(event: Event) {
+    console.log("Tecla abajo pulsada");
+    this.navegarLista(1);
+  }
+
+  onTeclaEnter() {
+    const productoSeleccionado = this.productoSeleccionado();
+    if (productoSeleccionado) {
+      console.log("Emitiendo producto", productoSeleccionado);
+      this.productoSeleccionadoOutput.emit(productoSeleccionado);
+      this.closeModal();
+    } else {
+      console.warn("No hay producto seleccionado");
+    }
+  }
+
+  navegarLista(direccion: number) {
+    const nuevoIndice = this.indiceSeleccionado() + direccion;
+    const length = this.productosFiltrados().length;
+    
+    if (nuevoIndice >= 0 && nuevoIndice < length) {
+      this.indiceSeleccionado.set(nuevoIndice);
+      this.productoSeleccionado.set(this.productosFiltrados()[nuevoIndice]);
+    } else {
+      this.indiceSeleccionado.set(-1);
+      this.productoSeleccionado.set(undefined);
+    }
+  }
+
+  filtrarProducto(palabraClave: string): void {
+    this.productosFiltrados.set(
+        this.productos().filter(p =>
+        p.descripcion.toLowerCase().includes(palabraClave.toLowerCase()) ||
+        p.codigoBarras.trim().includes(palabraClave.trim())
+      )
+    );
+  }
+
+  onProductoSeleccionado(producto: Producto) {
+    this.productoSeleccionadoOutput.emit(producto);
+    this.closeModal();
+  }
+}

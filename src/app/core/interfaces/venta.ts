@@ -1,4 +1,4 @@
-import { CarritoVenta } from "./carrito-venta";
+import { CarritoVenta } from "../../features/ventas/interfaces/carrito-venta";
 
 export interface Venta {
     id:number;
