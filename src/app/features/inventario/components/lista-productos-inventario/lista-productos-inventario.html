@@ -11,15 +11,18 @@
         </tr>
         </thead>
         @if (productosFiltrados() && productosFiltrados()!.length > 0) {
-            <tbody>
+            <tbody
+                tabindex="0"
+                (keydown.arrowUp)="onTeclaArriba($event)"
+                (keydown.arrowDown)="onTeclaAbajo($event)"
+            >
                 @for (producto of productosFiltrados(); let i = $index; track producto.id) {
-                <tr 
-                    tabindex="0" 
+                <tr  
+                    (click)="seleccionarIndice(i)" 
                     (mouseenter)="indiceHover = i"
                     (mouseleave)="indiceHover = null"
-                    (dblclick)="seleccionarProducto(producto)"  
-                    (keydown.enter)="seleccionarProducto(producto)" 
-                    [class.selected]="indiceSeleccionado() === i || indiceHover === i" 
+                    [class.selected]="indiceSeleccionadoActual() === i"
+                    [class.hover] ="indiceHover === i" 
                     style="cursor: pointer;">
                     <th scope="row">{{ producto.codigoBarras }}</th>
                     <td> {{ producto.descripcion }}</td>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-cinta-opciones-inventario',
@@ -8,4 +8,17 @@ import { Component } from '@angular/core';
 })
 export class CintaOpcionesInventario {
 
+  clicAgregarProducto = output<void>();
+  clicEditarProducto = output<void>();
+  clicAjusteInventario = output<void>();
+
+  onAgregarProducto() {
+    this.clicAgregarProducto.emit();
+  }
+  onEditarProducto() {
+    this.clicEditarProducto.emit();
+  }
+  onAjusteInventario() {
+    this.clicAjusteInventario.emit();
+  }
 }

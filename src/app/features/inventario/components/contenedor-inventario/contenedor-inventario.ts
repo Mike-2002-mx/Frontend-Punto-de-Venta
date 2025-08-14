@@ -1,7 +1,8 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, effect, inject, input, OnChanges, output, signal, SimpleChanges } from '@angular/core';
 import { BarraBusquedaInventario } from "../barra-busqueda-inventario/barra-busqueda-inventario";
 import { ProductoService } from '../../../../core/services/producto-service';
 import { ListaProductosInventario } from "../lista-productos-inventario/lista-productos-inventario";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contenedor-inventario',
@@ -9,21 +10,36 @@ import { ListaProductosInventario } from "../lista-productos-inventario/lista-pr
   templateUrl: './contenedor-inventario.html',
   styleUrl: './contenedor-inventario.css'
 })
-export class ContenedorInventario {
-  private productosService = inject(ProductoService);
+export class ContenedorInventario implements OnChanges {
 
-  // Signal para guardar palabras clave
+  private productosService = inject(ProductoService);
+  private router = inject(Router);  
+  // Signal para guardar palabra clave
   productosFiltrados = signal<Producto[]>([]);
   productos= signal<Producto[]>([]);
-  productoSeleccionado = signal<Producto | undefined>(undefined);
-  productoSeleccionadoOutput = output<Producto>();
   errorMessage = signal<string>('');
-  close = output<void>();
+  editarProductoClic = input<number>(-1);
+
   indiceSeleccionado = signal<number>(-1);
 
   //Cargar productos al iniciar
   constructor() {
     this.cargarProductos();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['editarProductoClic'] && this.indiceSeleccionado() >= 0) {
+      this.editarProductoSeleccionado();
+    }
+  }
+
+  editarProductoSeleccionado():void{
+    const producto:Producto = this.productosFiltrados()[this.indiceSeleccionado()];
+    this.router.navigate(['/editar-producto', producto.id]);
+  }
+
+  onChangeIndice(n: number){
+    this.indiceSeleccionado.set(n);
   }
 
   private cargarProductos():void{
@@ -43,55 +59,13 @@ export class ContenedorInventario {
     this.productosFiltrados.set([]);
   }
 
-  closeModal() {
-    this.close.emit();
-  }
-
-  onTeclaArriba(event: Event) {
-    console.log("Tecla arriba pulsada");
-    this.navegarLista(-1);
-  }
-
-  onTeclaAbajo(event: Event) {
-    console.log("Tecla abajo pulsada");
-    this.navegarLista(1);
-  }
-
-  onTeclaEnter() {
-    const productoSeleccionado = this.productoSeleccionado();
-    if (productoSeleccionado) {
-      console.log("Emitiendo producto", productoSeleccionado);
-      this.productoSeleccionadoOutput.emit(productoSeleccionado);
-      this.closeModal();
-    } else {
-      console.warn("No hay producto seleccionado");
-    }
-  }
-
-  navegarLista(direccion: number) {
-    const nuevoIndice = this.indiceSeleccionado() + direccion;
-    const length = this.productosFiltrados().length;
-    
-    if (nuevoIndice >= 0 && nuevoIndice < length) {
-      this.indiceSeleccionado.set(nuevoIndice);
-      this.productoSeleccionado.set(this.productosFiltrados()[nuevoIndice]);
-    } else {
-      this.indiceSeleccionado.set(-1);
-      this.productoSeleccionado.set(undefined);
-    }
-  }
 
   filtrarProducto(palabraClave: string): void {
     this.productosFiltrados.set(
         this.productos().filter(p =>
         p.descripcion.toLowerCase().includes(palabraClave.toLowerCase()) ||
-        p.codigoBarras.trim().includes(palabraClave.trim())
+        p.codigoBarras.toLowerCase().trim().includes(palabraClave.toLowerCase().trim())
       )
     );
-  }
-
-  onProductoSeleccionado(producto: Producto) {
-    this.productoSeleccionadoOutput.emit(producto);
-    this.closeModal();
   }
 }
