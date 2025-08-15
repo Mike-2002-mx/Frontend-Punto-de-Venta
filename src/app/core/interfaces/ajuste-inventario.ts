@@ -6,11 +6,11 @@ export interface AjusteInventario {
     totalNegativo:number;
     totalPositivo:number;
     totalGeneral:number;
-    productosVendidos:ProductoAjustadoRequest[];
+    productosVendidos:ProductoAjustado[];
 }
 
 
-export interface ProductoAjustadoRequest{
+export interface ProductoAjustado{
     descripcionProducto:string;
     existenciaAnterior:number;
     nuevaExistencia:number;

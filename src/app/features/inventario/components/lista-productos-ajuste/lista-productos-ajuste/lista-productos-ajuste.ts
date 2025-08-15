@@ -1,5 +1,5 @@
 import { Component, input, output, signal } from '@angular/core';
-import { CarritoAjuste } from '../../../../../core/interfaces/carrito-ajuste';
+import { CarritoAjusteItem } from '../../../../../core/interfaces/carrito-ajuste';
 
 @Component({
   selector: 'app-lista-productos-ajuste',
@@ -11,7 +11,7 @@ export class ListaProductosAjuste {
 
   indiceHover: number | null = null;
 
-  carritoAjuste = input<CarritoAjuste[]>([]);
+  carritoAjuste = input<CarritoAjusteItem[]>([]);
 
   indiceSeleccionadoActual = signal(-1);
 

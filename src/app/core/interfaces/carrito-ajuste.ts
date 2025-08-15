@@ -1,4 +1,5 @@
-export interface CarritoAjuste {
+export interface CarritoAjusteItem {
+    idProducto: number;
     descripcion: string;
     existenciaAnterior:number;
     nuevaExistencia:number;

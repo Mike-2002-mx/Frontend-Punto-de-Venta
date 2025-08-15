@@ -1,13 +1,16 @@
 import { Component, inject, input, OnChanges, OnInit, signal, SimpleChanges, viewChild } from '@angular/core';
 import { BarraBusqueda } from "../../../ventas/components/barra-busqueda/barra-busqueda";
 import { ListaProductosAjuste } from "../lista-productos-ajuste/lista-productos-ajuste/lista-productos-ajuste";
-import { CarritoAjuste } from '../../../../core/interfaces/carrito-ajuste';
+import { CarritoAjusteItem } from '../../../../core/interfaces/carrito-ajuste';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalAjuste } from '../modal-ajuste/modal-ajuste';
 import { MotivoAjusteComponent } from "../motivo-ajuste/motivo-ajuste-component/motivo-ajuste-component";
 import { ModalCerrarAjuste } from '../modal-cerrar-ajuste/modal-cerrar-ajuste';
 import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
+import { AjusteService } from '../../../../core/services/ajuste/ajuste-service';
+import { AjusteInventario } from '../../../../core/interfaces/ajuste-inventario';
+import { AjusteInventarioRequest, ProductoAjustadoRequest } from '../../interfaces/AjusteInventarioRequest';
 
 @Component({
   selector: 'app-contenedor-ajuste',
@@ -18,11 +21,12 @@ import { BuscarProductoComponent } from "../../../../shared/buscar-producto/busc
 export class ContenedorAjuste implements OnInit, OnChanges {
 
   productoService = inject(ProductoService);
+  ajusteService = inject(AjusteService);
   dialog = inject(MatDialog);
 
   productos= signal<Producto[]>([]);
   errorMessage = signal<string>('');
-  carritoAjuste = signal<CarritoAjuste[]>([]);
+  carritoAjuste = signal<CarritoAjusteItem[]>([]);
   nuevaExistencia = signal<number>(-1);
   motivoAjuste = signal<string>('');
   indiceSeleccionado = signal<number>(-1);
@@ -78,23 +82,31 @@ export class ContenedorAjuste implements OnInit, OnChanges {
     .reduce((valorPrevio, itemActual) => valorPrevio + itemActual.subtotal, 0);
 
     const general = positivo + negativo;
-
+    const motivoAjuste = this.motivoAjuste();
     const dialogRef = this.dialog.open(ModalCerrarAjuste, {
       data: {
         totalNegativo: negativo,
         totalPositivo: positivo,
         totalGeneral: general,
-        motivo: this.motivoAjuste()
+        motivo: motivoAjuste
       }
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      console.log("Se ha cerrado el ajuste");
-      this.carritoAjuste.set([]);
-      this.motivoAjuste.set('');
+      const carritoAjuste = this.carritoAjuste();
+      const ajusteData:AjusteInventarioRequest = this.carritoToAjusteRequest(carritoAjuste, motivoAjuste);
+      this.ajusteService.agregarAjuste(ajusteData).subscribe({
+        next: (response)=>{
+          console.log("Respuesta: ", response);
+          this.carritoAjuste.set([]);
+          this.motivoAjuste.set('');
+        },
+        error: (err) => {
+          console.error('Error al crear producto:', err);
+        }
+      });
     })
   }
-
 
   // Modificar el openModal para manejar la lógica completa
   openModalNuevaCantidad(stockActual: number, producto?: Producto): void {
@@ -131,8 +143,9 @@ export class ContenedorAjuste implements OnInit, OnChanges {
     }
   }
 
-  productoToAjuste(producto: Producto): CarritoAjuste{
-    const carritoAjuste:CarritoAjuste= {
+  productoToAjuste(producto: Producto): CarritoAjusteItem{
+    const carritoAjuste:CarritoAjusteItem= {
+      idProducto:producto.id,
       descripcion: producto.descripcion,
       existenciaAnterior:producto.stockActual,
       nuevaExistencia:this.nuevaExistencia(),
@@ -171,6 +184,20 @@ export class ContenedorAjuste implements OnInit, OnChanges {
       this.carritoAjuste.update(currentItems => 
           currentItems.filter((_, index) => index !== n)
       );
+  }
+
+  //Convertir
+  carritoToAjusteRequest(carrito: CarritoAjusteItem[], motivo: string):AjusteInventarioRequest{
+    const motivoAjuste = motivo;
+    const productosAjustados: ProductoAjustadoRequest[] = carrito.map(p => ({
+        idProducto: p.idProducto,
+        nuevaExistencia: p.nuevaExistencia
+    }));
+    const ajusteRequest:AjusteInventarioRequest = {
+      motivo:motivoAjuste,
+      productos: productosAjustados
+    }
+    return ajusteRequest;
   }
 
   private handleError(err: any): void {
