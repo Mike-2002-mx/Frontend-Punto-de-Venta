@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Detalles del Ajuste</h1>
+<div mat-dialog-content>
+    <p>{{data.motivo}}</p>
+    <h3>Total positivo {{data.totalPositivo}} </h3>
+    <h3>Total negativo {{data.totalNegativo}} </h3>
+    <h3>Total general  {{data.totalGeneral}} </h3>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeModal()">Close</button>
+  <button mat-button (click)="clicAceptar()">Aceptar</button>
+</div>

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Example Modal</h1>
+<div mat-dialog-content>
+  <input 
+    cdkFocusInitial
+    [placeholder]="data.stockActual"
+    type="text" 
+    autofocus 
+    #nuevaData    
+    >
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeModal()">Close</button>
+  <button mat-button (click)="clicAceptar()">Aceptar</button>
+</div>

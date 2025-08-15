@@ -1,0 +1,39 @@
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Existencia Anterior</th>
+            <th scope="col">Nueva Existencia</th>
+            <th scope="col">Diferencia</th>
+            <th scope="col">Precio U.</th>
+            <th scope="col">Subtotal</th>
+        </tr>
+        </thead>
+        @if (carritoAjuste() && carritoAjuste().length > 0) {
+            <tbody 
+                tabindex="0"  
+            >
+                @for (producto of carritoAjuste(); let i = $index; track producto.descripcion) {
+                <tr  
+                    style="cursor: pointer;">
+                    <th scope="row">{{ producto.descripcion }}</th>
+                    <td>{{ producto.existenciaAnterior }}</td>
+                    <td>{{ producto.nuevaExistencia }}</td>
+                    <td>{{ producto.diferencia }}</td>
+                    <td>{{ producto.precioU }}</td>
+                    <td>{{ producto.subtotal }}</td>
+                </tr>
+                }
+            </tbody>
+        } @else {
+            <tbody>
+                <tr>
+                <td colspan="6">
+                    No se encontraron productos
+                </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>

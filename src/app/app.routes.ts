@@ -7,6 +7,7 @@ import { InventarioPage } from './features/inventario/pages/inventario-page/inve
 import { HistorialPage } from './features/historial/pages/historial-page/historial-page';
 import { AgregarProductoComponent } from './features/inventario/components/agregar-producto-component/agregar-producto-component';
 import { EditarProductoComponent } from './features/inventario/components/editar-producto/editar-producto-component/editar-producto-component';
+import { AjusteInventarioPage } from './features/inventario/pages/ajuste-inventario/ajuste-inventario-page/ajuste-inventario-page';
 
 export const routes: Routes = [
     {path:"ventas-page", component:VentasPage},
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path:"carrito", component:CarritoCompras},
     {path:"buscar-producto", component:BuscarProductoComponent},
     {path:"agregar-producto", component:AgregarProductoComponent},
-    { path: 'editar-producto/:id', component: EditarProductoComponent },
+    { path: 'editar-producto/:id', component: EditarProductoComponent},
+    {path:'ajuste-inventario', component:AjusteInventarioPage},
     {path:"**", redirectTo:"agregar-producto"}
 ];

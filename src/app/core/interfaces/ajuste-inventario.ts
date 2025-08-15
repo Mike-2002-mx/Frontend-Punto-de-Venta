@@ -1,0 +1,20 @@
+export interface AjusteInventario {
+    id:number;
+    folio:string;
+    motivo:string;
+    fecha: Date;
+    totalNegativo:number;
+    totalPositivo:number;
+    totalGeneral:number;
+    productosVendidos:ProductoAjustadoRequest[];
+}
+
+
+export interface ProductoAjustadoRequest{
+    descripcionProducto:string;
+    existenciaAnterior:number;
+    nuevaExistencia:number;
+    diferencia:number;
+    precioUnitario:number;
+    subtotal:number;
+}
