@@ -1,0 +1,36 @@
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">Folio</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+        </tr>
+        </thead>
+        @if (listaVentas() && listaVentas().length > 0) {
+            <tbody 
+                tabindex="0"  
+            >
+                @for (venta of listaVentas(); let i = $index; track venta.id) {
+                <tr  
+                    style="cursor: pointer;">
+                    <th scope="row">{{ venta.folio }}</th>
+                    <td>{{ venta.fecha| date:'dd/MM/yyyy' }}</td>
+                    <td>{{ venta.total | currency  }}</td>
+                </tr>
+                }
+            </tbody>
+        } @else {
+            <tbody>
+                <tr>
+                <td colspan="6">
+                    No se encontraron ventas
+                </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+    <button (click)="onClicAtras()">Atrás</button>
+    <button (click)="onClicSiguiente()">Siguiente</button>
+    <h3>{{paginaActual()}} / {{totalPaginas()}}</h3>
+</div>

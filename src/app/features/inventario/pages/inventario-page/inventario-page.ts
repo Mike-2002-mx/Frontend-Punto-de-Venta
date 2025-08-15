@@ -24,4 +24,8 @@ export class InventarioPage {
     this.editarProductoClic.update(n => n+1);
   }
 
+  navegarAjusteInventario(){
+    this.router.navigateByUrl('/ajuste-inventario');
+  }
+
 }
