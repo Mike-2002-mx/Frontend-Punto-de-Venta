@@ -1,3 +1,11 @@
 <app-barra-busqueda (codigoBarras)="agregarPorCodigo($event)"/>
 <app-lista-productos-ajuste [carritoAjuste]="carritoAjuste()"/>
 <app-motivo-ajuste-component (motivoAjuste)="agregarMotivo($event)"/>
+
+
+@if(modalBuscarProductoVisible){
+    <app-buscar-producto-component  
+        (productoSeleccionadoOutput)="onProductoSeleccionado($event)" 
+        (close)="hideModal()" 
+    />
+}

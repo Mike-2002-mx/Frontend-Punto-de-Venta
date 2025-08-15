@@ -4,13 +4,14 @@ import { ListaProductosAjuste } from "../lista-productos-ajuste/lista-productos-
 import { CarritoAjuste } from '../../../../core/interfaces/carrito-ajuste';
 import { ProductoService } from '../../../../core/services/producto-service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalAjuste } from '../modal-ajuste/modal-ajuste/modal-ajuste';
+import { ModalAjuste } from '../modal-ajuste/modal-ajuste';
 import { MotivoAjusteComponent } from "../motivo-ajuste/motivo-ajuste-component/motivo-ajuste-component";
-import { ModalCerrarAjuste } from '../modal-cerrar-ajuste/modal-cerrar-ajuste/modal-cerrar-ajuste';
+import { ModalCerrarAjuste } from '../modal-cerrar-ajuste/modal-cerrar-ajuste';
+import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
 
 @Component({
   selector: 'app-contenedor-ajuste',
-  imports: [BarraBusqueda, ListaProductosAjuste, MotivoAjusteComponent],
+  imports: [BarraBusqueda, ListaProductosAjuste, MotivoAjusteComponent, BuscarProductoComponent],
   templateUrl: './contenedor-ajuste.html',
   styleUrl: './contenedor-ajuste.css'
 })
@@ -25,7 +26,10 @@ export class ContenedorAjuste implements OnInit, OnChanges {
   nuevaExistencia = signal<number>(-1);
   motivoAjuste = signal<string>('');
 
+  modalBuscarProductoVisible = false;
+
   clicCerrarAjuste = input<number>(-1);
+  clicBuscarProducto = input<number>(-1);
 
   ngOnInit(): void {
     this.productoService.getProductos().subscribe({
@@ -37,6 +41,9 @@ export class ContenedorAjuste implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['clicCerrarAjuste'] && this.clicCerrarAjuste()>=0){
       this.openModalCerrarAjuste();
+    }
+    if(changes['clicBuscarProducto'] && this.clicBuscarProducto()>=0){
+      this.showModalProducto();
     }
   }
 
@@ -126,6 +133,21 @@ export class ContenedorAjuste implements OnInit, OnChanges {
 
   agregarMotivo(motivo: string) {
     this.motivoAjuste.set(motivo);
+  }
+
+  //Buscar producto para agregar
+  showModalProducto(){
+    this.modalBuscarProductoVisible=true;
+  }
+  
+  onProductoSeleccionado(producto: Producto){
+    console.log("El producto que se deberia agregar al carrito de ajuste es: ", producto);
+    const stockActual = producto.stockActual;
+    this.openModalNuevaCantidad(stockActual, producto);
+  }
+
+  hideModal(){
+    this.modalBuscarProductoVisible = false;
   }
   
   private handleError(err: any): void {

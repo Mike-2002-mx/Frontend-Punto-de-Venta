@@ -11,8 +11,13 @@ import { ContenedorAjuste } from "../../../components/contenedor-ajuste/contened
 export class AjusteInventarioPage {
 
   clicCerrarAjuste = signal<number>(-1);
+  clicBuscarProducto = signal<number>(-1);
 
   onClicCerrarAjuste() {
     this.clicCerrarAjuste.update(n => n+1);
+  }
+
+  onClicBuscarProducto() {
+    this.clicBuscarProducto.update(n => n+1);
   }
 }
