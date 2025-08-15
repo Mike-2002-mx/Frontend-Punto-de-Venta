@@ -12,6 +12,7 @@ export class AjusteInventarioPage {
 
   clicCerrarAjuste = signal<number>(-1);
   clicBuscarProducto = signal<number>(-1);
+  clicRemoverProducto = signal<number>(-1);
 
   onClicCerrarAjuste() {
     this.clicCerrarAjuste.update(n => n+1);
@@ -20,4 +21,9 @@ export class AjusteInventarioPage {
   onClicBuscarProducto() {
     this.clicBuscarProducto.update(n => n+1);
   }
+
+  onClicRemoverProducto(){
+    this.clicRemoverProducto.update(n => n+1);
+  }
+
 }

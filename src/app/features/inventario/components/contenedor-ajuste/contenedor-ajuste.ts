@@ -25,11 +25,13 @@ export class ContenedorAjuste implements OnInit, OnChanges {
   carritoAjuste = signal<CarritoAjuste[]>([]);
   nuevaExistencia = signal<number>(-1);
   motivoAjuste = signal<string>('');
+  indiceSeleccionado = signal<number>(-1);
 
   modalBuscarProductoVisible = false;
 
   clicCerrarAjuste = input<number>(-1);
   clicBuscarProducto = input<number>(-1);
+  clicRemoverProducto = input<number>(-1);
 
   ngOnInit(): void {
     this.productoService.getProductos().subscribe({
@@ -44,6 +46,16 @@ export class ContenedorAjuste implements OnInit, OnChanges {
     }
     if(changes['clicBuscarProducto'] && this.clicBuscarProducto()>=0){
       this.showModalProducto();
+    }
+    if(changes['clicRemoverProducto'] && this.clicRemoverProducto()>=0){
+      console.log("Esto deberia remover producto seleccionado");
+      const indice = this.indiceSeleccionado();
+      console.log("Indice seleccionado: ", indice);
+      if(indice>=0){
+        this.removerProducto(indice);
+      }else{
+        console.log("No hay indice seleccionado");
+      }
     }
   }
 
@@ -150,6 +162,17 @@ export class ContenedorAjuste implements OnInit, OnChanges {
     this.modalBuscarProductoVisible = false;
   }
   
+  //Remover producto 
+  onIndiceSeleccionado(n:number){
+    console.log("Actualizando indice seleccionado a: ", n);
+    this.indiceSeleccionado.set(n);
+  }
+  removerProducto(n: number): void {
+      this.carritoAjuste.update(currentItems => 
+          currentItems.filter((_, index) => index !== n)
+      );
+  }
+
   private handleError(err: any): void {
     this.errorMessage.set("Error al obtener productos");
     console.error(err);

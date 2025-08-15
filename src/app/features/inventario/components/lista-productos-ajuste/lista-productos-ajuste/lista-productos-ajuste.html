@@ -12,10 +12,17 @@
         </thead>
         @if (carritoAjuste() && carritoAjuste().length > 0) {
             <tbody 
-                tabindex="0"  
+                tabindex="0" 
+                (keydown.arrowUp)="onTeclaArriba($event)"
+                (keydown.arrowDown)="onTeclaAbajo($event)"
             >
                 @for (producto of carritoAjuste(); let i = $index; track producto.descripcion) {
-                <tr  
+                <tr 
+                    (click)="seleccionarIndice(i)" 
+                    (mouseenter)="indiceHover = i"
+                    (mouseleave)="indiceHover = null"
+                    [class.selected]="indiceSeleccionadoActual() === i"
+                    [class.hover] ="indiceHover === i" 
                     style="cursor: pointer;">
                     <th scope="row">{{ producto.descripcion }}</th>
                     <td>{{ producto.existenciaAnterior }}</td>
