@@ -20,4 +20,9 @@ export class VentaService {
   crearVenta(venta: VentaRequest):Observable<VentaRequest>{
     return this.http.post<VentaRequest>(`${environment.apiUrl}/ventas`, venta);
   }
+
+  buscarPorFolio(folio: string):Observable<Venta>{
+    return this.http.get<Venta>(`${environment.apiUrl}/ventas/folio?folio=${folio}`);
+  }
+
 }

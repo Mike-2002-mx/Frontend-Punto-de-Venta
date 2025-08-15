@@ -1,0 +1,19 @@
+<mat-radio-group aria-label="Select an option">
+  <mat-radio-button value="1">
+    <label for="">Fecha de inicio</label>
+    <input type="date">
+    <label for="">Fecha de fin</label>
+    <input type="date">
+    <label for="">Producto</label>
+    <input type="text">
+  </mat-radio-button>
+  <mat-radio-button value="2">
+    <input 
+        type="text"
+        placeholder="Ingresar codigo..."
+        (keydown.enter)="emitFolio(txtFolio.value)"
+        #txtFolio
+        autofocus
+    >
+  </mat-radio-button>
+</mat-radio-group>
