@@ -20,6 +20,9 @@ export class ContenedorHistorialVentas implements OnInit{
   paginaActual = signal<number>(0);
   totalPaginas = signal<number>(0);
   pageSize = 10;
+  fechaInicio = signal<string>('');
+  fechaFin = signal<string>('');
+  esBusquedaPorFecha = false;
 
 
   cargarProductos(pagina: number){
@@ -29,6 +32,19 @@ export class ContenedorHistorialVentas implements OnInit{
       this.paginaActual.set(response.currentPage);
       this.totalPaginas.set(response.totalPages)
     });
+    this.esBusquedaPorFecha = false;
+  }
+
+  cargarProductosPorFecha(fechaInicio: string, fechaFin: string, pagina: number){
+    this.ventaSevice.buscarPorFechas(fechaInicio, fechaFin, pagina, this.pageSize)
+    .subscribe((response: PaginatedResponse<Venta>) =>{
+      this.listaVentas.set(response.data);
+      this.paginaActual.set(response.currentPage);
+      this.totalPaginas.set(response.totalPages);
+      this.fechaInicio.set(fechaInicio);
+      this.fechaFin.set(fechaFin);
+    });
+    this.esBusquedaPorFecha = false;
   }
 
   ngOnInit(): void {
@@ -40,7 +56,11 @@ export class ContenedorHistorialVentas implements OnInit{
     const totalPaginas = this.totalPaginas();
 
     if (nuevaPagina < totalPaginas) {
-      this.cargarProductos(nuevaPagina);
+      if(this.esBusquedaPorFecha){
+        this.cargarProductosPorFecha(this.fechaInicio(), this.fechaFin(), nuevaPagina);
+      }else{
+        this.cargarProductos(nuevaPagina);
+      }
       this.paginaActual.set(nuevaPagina);
       console.log("La nueva pagina es: ", this.paginaActual());
     }
@@ -48,9 +68,12 @@ export class ContenedorHistorialVentas implements OnInit{
 
   anteriorPagina() {
     const nuevaPagina = this.paginaActual() -1;
-
     if (nuevaPagina >= 0 ) {
-      this.cargarProductos(nuevaPagina);
+      if(this.esBusquedaPorFecha){
+        this.cargarProductosPorFecha(this.fechaInicio(), this.fechaFin(), nuevaPagina);
+      }else{
+        this.cargarProductos(nuevaPagina);
+      }
       this.paginaActual.set(nuevaPagina);
       console.log("La nueva pagina es: ", this.paginaActual());
     }
@@ -58,7 +81,7 @@ export class ContenedorHistorialVentas implements OnInit{
 
   //Buscar por folio
   buscarVentaPorFolio(folio: string):void{
-      this.ventaSevice.buscarPorFolio(folio).subscribe({
+    this.ventaSevice.buscarPorFolio(folio).subscribe({
       next: (venta) => {
         this.listaVentas.set([venta]);
         this.paginaActual.set(1);
@@ -69,7 +92,15 @@ export class ContenedorHistorialVentas implements OnInit{
         this.listaVentas.set([]);
       }
     });
-
   }
+
+  //Buscar por fechas
+  onBuscarFechas(data: {fechaInicio: string, fechaFin: string}){
+    const fechaInicio = data.fechaInicio
+    const fechaFin =  data.fechaFin
+    this.cargarProductosPorFecha(fechaInicio, fechaFin, 0);
+    this.esBusquedaPorFecha = true;
+  }
+
 
 }

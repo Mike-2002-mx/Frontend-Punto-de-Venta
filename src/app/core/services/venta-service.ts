@@ -25,4 +25,8 @@ export class VentaService {
     return this.http.get<Venta>(`${environment.apiUrl}/ventas/folio?folio=${folio}`);
   }
 
+  buscarPorFechas(fechaInicio: string, fechaFin: string, page:number, size:number, sort: string = "fecha,desc"):Observable<PaginatedResponse<Venta>>{
+    return this.http.get<PaginatedResponse<Venta>>(`${environment.apiUrl}/ventas/buscarVenta?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}&page=${page}&size=${size}&sort=${sort}`);
+  }
+
 }

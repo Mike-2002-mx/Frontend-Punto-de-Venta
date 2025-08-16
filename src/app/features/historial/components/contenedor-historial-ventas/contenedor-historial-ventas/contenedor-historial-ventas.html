@@ -1,5 +1,6 @@
 <app-barra-busqueda-historial 
     (folio)="buscarVentaPorFolio($event)"
+    (busquedaData)="onBuscarFechas($event)"
 />
 <app-lista-historial-ventas 
     (clicAtras)="anteriorPagina()" 
