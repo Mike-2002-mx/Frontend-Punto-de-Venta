@@ -1,47 +1,66 @@
-<div>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col">Producto</th>
-            <th scope="col">Exis.</th>
-            <th scope="col">Precio U.</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Importe</th>
-        </tr>
-        </thead>
-        @if (carritoProductos() && carritoProductos().length > 0) {
-            <tbody 
-                tabindex="0"  
-                (keydown.arrowUp)="onTeclaArriba($event)"
-                (keydown.arrowDown)="onTeclaAbajo($event)"
-                (keydown)="onKeyDown($event)"
-            >
-                @for (producto of carritoProductos(); let i = $index; track producto.id) {
-                <tr  
-                    [class.selected]="indiceSeleccionado() === i || indiceHover === i" 
-                    (mouseenter)="indiceHover = i"
-                    (mouseleave)="indiceHover = null"
-                    (click)="seleccionarIndiceProducto(i)"
-                    style="cursor: pointer;">
-                    <th scope="row">{{ producto.descripcion }}</th>
-                    <td>{{ producto.exis }}</td>
-                    <td>{{ producto.precioU }}</td>
-                    <td>{{ producto.cantidad }}</td>
-                    <td>{{ producto.importe }}</td>
-                </tr>
-                }
-            </tbody>
-        } @else {
-            <tbody>
+<div class="mb-6">
+    <h3 class="text-lg font-semibold mb-3 text-gray-700">Productos agregados</h3>
+    <div class="overflow-y-auto max-h-96 border border-gray-200 rounded-lg shadow-sm">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
                 <tr>
-                <td colspan="6">
-                    No se encontraron productos
-                </td>
+                    <th scope="col"
+                        class=  "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exis.
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio U.
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Importe
+                    </th>
                 </tr>
-            </tbody>
-        }
-    </table>
-    <div>
-        <h4>Total ${{totalVenta()}}</h4>
+            </thead>
+            @if (carritoProductos() && carritoProductos().length > 0) {
+                <tbody 
+                    class="bg-white divide-y divide-gray-200"
+                    tabindex="0"  
+                    (keydown.arrowUp)="onTeclaArriba($event)"
+                    (keydown.arrowDown)="onTeclaAbajo($event)"
+                    (keydown)="onKeyDown($event)"
+                >
+                    @for (producto of carritoProductos(); let i = $index; track producto.id) {
+                    <tr  
+                        class="hover-row cursor-pointer"
+                        [class.selected]="indiceSeleccionado() === i || indiceHover === i" 
+                        (mouseenter)="indiceHover = i"
+                        (mouseleave)="indiceHover = null"
+                        (click)="seleccionarIndiceProducto(i)"
+                        style="cursor: pointer;">
+                        <th class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" scope="row">{{ producto.descripcion }}</th>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producto.exis }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producto.precioU }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producto.cantidad }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ producto.importe }}</td>
+                    </tr>
+                    }
+                </tbody>
+            } @else {
+                <tbody>
+                    <tr>
+                    <td colspan="6">
+                        No se encontraron productos
+                    </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <div class="mt-4 flex justify-end">
+                <div class="bg-blue-50 px-6 py-3 rounded-lg border border-blue-100">
+                    <h4 class="text-lg font-semibold text-blue-800">Total ${{totalVenta()}}</h4>
+                </div>
+            </div>
     </div>
 </div>
+
+

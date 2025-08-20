@@ -1,4 +1,6 @@
-<app-barra-busqueda #inputCodigo (codigoBarras)="buscarProducto($event)"/>
+<app-barra-busqueda 
+#inputCodigo (codigoBarras)="buscarProducto($event)"
+/>
 <app-lista-productos 
     (teclaAbajo)="navegarLista(1)"  
     (teclaArriba)="navegarLista(-1)" 
