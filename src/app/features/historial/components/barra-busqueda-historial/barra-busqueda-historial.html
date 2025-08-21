@@ -1,42 +1,69 @@
-<mat-radio-group aria-label="Seleccione un método de búsqueda" class="search-options">
-<mat-radio-button value="1" class="search-option"></mat-radio-button>
-<form [formGroup]="busquedaForm" (ngSubmit)="onSubmit()" novalidate>
-  <div class="form-group">
-    <label for="fechaInicio">Fecha de inicio</label>
-    <input id="fechaInicio" type="date" class="form-control" formControlName="fechaInicio" required>
-    @if (busquedaForm.get('fechaInicio')?.invalid && busquedaForm.get('fechaInicio')?.touched) {
-    <div class="text-danger">
-      @if (busquedaForm.get('fechaInicio')?.errors?.['required']) {
-      <div>Debe de ingresar una fecha de inicio</div>
-      }
-    </div>
-    }
-  </div>
-  <div class="form-group">
-    <label for="fechaFin">Fecha de fin</label>
-    <input id="fechaFin" type="date" class="form-control" formControlName="fechaFin" required>
-    @if (busquedaForm.get('fechaFin')?.invalid && busquedaForm.get('fechaFin')?.touched) {
-    <div class="text-danger">
-      @if (busquedaForm.get('fechaFin')?.errors?.['required']) {
-      <div>Debe de ingresar una fecha de fin</div>
-      }
-    </div>
-    }
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="busquedaForm.invalid">Buscar</button>
-</form>
+<div class="flex flex-col gap-x-3 md:flex-row w-full">
+  <!-- Buscar por fechas -->
+  <div class="flex-3 bg-white rounded-xl shadow pl-4 pt-1">
+    <h3 class="text-lg font-semibold text-gray-800">Buscar por fecha</h3>
+    <form [formGroup]="busquedaForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-row gap-4">
+      <!-- Fecha inicio -->
+      <div class="flex-1" >
+        <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha de inicio</label>
+        <input
+          id="fechaInicio"
+          type="date"
+          class="mt-1 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
+          formControlName="fechaInicio"
+          required
+        />
+        @if (busquedaForm.get('fechaInicio')?.invalid && busquedaForm.get('fechaInicio')?.touched) {
+          <p class="mt-1 text-xs text-red-600">
+            @if (busquedaForm.get('fechaInicio')?.errors?.['required']) {
+              Debe ingresar una fecha de inicio
+            }
+          </p>
+        }
+      </div>
 
-  <mat-radio-button value="2" class="search-option">  </mat-radio-button>
-    <div class="search-by-code">
-      <label for="folioCode" class="sr-only">Ingresar código</label>
-      <input 
-        id="folioCode"
-        type="text"
-        class="form-control"
-        placeholder="Ingresar código..."
-        (keydown.enter)="emitFolio(txtFolio.value)"
-        #txtFolio
-        autofocus
+      <!-- Fecha fin -->
+      <div class="flex-1">
+        <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha de fin</label>
+        <input
+          id="fechaFin"
+          type="date"
+          class="mt-1 w-full  rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm"
+          formControlName="fechaFin"
+          required
+        />
+        @if (busquedaForm.get('fechaFin')?.invalid && busquedaForm.get('fechaFin')?.touched) {
+          <p class="mt-1 text-xs text-red-600">
+            @if (busquedaForm.get('fechaFin')?.errors?.['required']) {
+              Debe ingresar una fecha de fin
+            }
+          </p>
+        }
+      </div>
+
+      <!-- Botón -->
+      <button
+        type="submit"
+        class="self-start px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 disabled:opacity-50"
+        [disabled]="busquedaForm.invalid"
       >
-    </div>
-</mat-radio-group>
+        Buscar
+      </button>
+    </form>
+  </div>
+
+  <!-- Buscar por código -->
+  <div class="flex-1 bg-white rounded-xl shadow pt-2">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Buscar por folio</h3>
+    <label for="folioCode" class="sr-only">Ingresar folio</label>
+    <input
+      id="folioCode"
+      type="text"
+      class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 text-sm px-3 py-2"
+      placeholder="Ingresar folio..."
+      (keydown.enter)="emitFolio(txtFolio.value)"
+      #txtFolio
+      autofocus
+    />
+  </div>
+</div>

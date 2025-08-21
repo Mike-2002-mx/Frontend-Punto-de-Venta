@@ -1,36 +1,54 @@
-<div>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col">Folio</th>
-            <th scope="col">Fecha</th>
-            <th scope="col">Total</th>
-        </tr>
+<div class="w-full bg-white p-4 rounded-xl shadow space-y-4">
+    <table class="min-w-full border border-gray-200 divide-y divide-gray-200 rounded-lg overflow-hidden">
+        <thead class="bg-gray-300 text-gray-900 text-xs uppercase tracking-wide">
+            <tr>
+                <th scope="col" class="px-4 py-2 text-center">Folio</th>
+                <th scope="col" class="px-4 py-2 text-left">Fecha</th>
+                <th scope="col" class="px-4 py-2 text-right">Total</th>
+            </tr>
         </thead>
+
         @if (listaVentas() && listaVentas().length > 0) {
-            <tbody 
-                tabindex="0"  
-            >
-                @for (venta of listaVentas(); let i = $index; track venta.id) {
-                <tr  
-                    style="cursor: pointer;">
-                    <th scope="row">{{ venta.folio }}</th>
-                    <td>{{ venta.fecha| date:'dd/MM/yyyy' }}</td>
-                    <td>{{ venta.total | currency  }}</td>
-                </tr>
-                }
-            </tbody>
+        <tbody tabindex="0" class="divide-y divide-gray-200 text-sm">
+            @for (venta of listaVentas(); let i = $index; track venta.id) {
+            <tr class="hover:bg-sky-100 cursor-pointer transition-colors">
+                <th scope="row" class="px-4 py-2 font-medium text-gray-700">
+                    {{ venta.folio }}
+                </th>
+                <td class="px-4 py-2">{{ venta.fecha | date:'dd/MM/yyyy' }}</td>
+                <td class="px-4 py-2 text-right font-semibold text-green-600">
+                    {{ venta.total | currency }}
+                </td>
+            </tr>
+            }
+        </tbody>
         } @else {
-            <tbody>
-                <tr>
-                <td colspan="6">
+        <tbody>
+            <tr>
+                <td colspan="6" class="px-4 py-4 text-center text-gray-500 italic">
                     No se encontraron ventas
                 </td>
-                </tr>
-            </tbody>
+            </tr>
+        </tbody>
         }
     </table>
-    <button (click)="onClicAtras()">Atrás</button>
-    <button (click)="onClicSiguiente()">Siguiente</button>
-    <h3>{{paginaActual()}} / {{totalPaginas()}}</h3>
+
+    <!-- Paginación -->
+    <div class="flex items-center justify-between">
+        <button (click)="onClicAtras()"
+            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 disabled:opacity-50"
+            [disabled]="paginaActual() === 0">
+            Atrás
+        </button>
+
+        <h3 class="text-sm font-medium text-gray-600">
+            {{ paginaActual() }} / {{ totalPaginas() }}
+        </h3>
+
+        <button (click)="onClicSiguiente()"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 disabled:opacity-50"
+            [disabled]="paginaActual() === totalPaginas()">
+            Siguiente
+        </button>
+    </div>
 </div>
