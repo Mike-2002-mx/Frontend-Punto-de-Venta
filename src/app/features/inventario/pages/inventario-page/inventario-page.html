@@ -1,3 +1,8 @@
-<app-navbar/>
-<app-cinta-opciones-inventario (clicAgregarProducto)="navegarAgregarProducto()" (clicEditarProducto)="clicEditarProducto()" (clicAjusteInventario)="navegarAjusteInventario()" />
-<app-contenedor-inventario [editarProductoClic]="editarProductoClic()"/>
+<div class="flex flex-col h-screen">
+    <app-navbar class="w-full" />
+    <div class="flex flex-row flex-1">
+        <app-cinta-opciones-inventario class="basis-2/5 md:basis-2/12" (clicAgregarProducto)="navegarAgregarProducto()"
+            (clicEditarProducto)="clicEditarProducto()" (clicAjusteInventario)="navegarAjusteInventario()" />
+        <app-contenedor-inventario class="basis-3/5 md:basis-10/12 m-4" [editarProductoClic]="editarProductoClic()" />
+    </div>
+</div>

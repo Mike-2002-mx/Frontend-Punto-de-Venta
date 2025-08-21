@@ -1,8 +1,9 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-lista-productos-inventario',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './lista-productos-inventario.html',
   styleUrl: './lista-productos-inventario.css'
 })

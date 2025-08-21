@@ -1,5 +1,52 @@
-<div>
-    <button (click)="onAgregarProducto()">Agregar producto</button>
-    <button (click)="onEditarProducto()" >Editar producto</button>
-    <button (click)="onAjusteInventario()" >Ajuste de inventario</button>
-</div>       
+<div class="flex flex-col h-full bg-gray-800 text-white p-4 items-center">
+    <div>
+        <h2 class="text-xl font-bold mb-6 text-center border-b border-gray-700 pb-2">Acciones</h2>
+    </div>
+    <button class="flex flex-col w-full action-btn" (click)="onAgregarProducto()">Agregar producto
+        <svg class="w-3.5 h-3.5 me-2 self-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 18 21">
+            <path
+                d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+        </svg>
+    </button>
+    <button class="flex flex-col w-full action-btn" (click)="onEditarProducto()">Editar producto
+        <svg class="w-3.5 h-3.5 me-2 self-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 18 21">
+            <path
+                d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+        </svg>
+    </button>
+    <button class="flex flex-col w-full action-btn" (click)="onAjusteInventario()">Ajuste de inventario
+        <svg class="w-3.5 h-3.5 me-2 self-center" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor" viewBox="0 0 18 21">
+            <path
+                d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+        </svg>
+    </button>
+    <style>
+        .action-btn {
+            color: #ffffff;
+            background-color: #1d4ed8;
+            font-weight: 500;
+            font-size: 1rem;
+            text-align: center;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            outline: none;
+            box-shadow: none;
+            text-align: center;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: #1e40af;
+            /* hover:bg-blue-800 */
+        }
+
+        .action-btn:focus {
+            box-shadow: 0 0 0 0.25rem rgba(147, 197, 253, 0.5);
+            /* focus:ring-4 focus:ring-blue-300 */
+        }
+    </style>
+</div>

@@ -1,46 +1,49 @@
-<div>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col">Cod_Barras</th>
-            <th scope="col">Producto</th>
-            <th scope="col">Exis.</th>
-            <th scope="col">Stock Minimo</th>
-            <th scope="col">Precio Venta</th>
-            <th scope="col">Precio Compra</th>
-        </tr>
+<div class="w-full overflow-x-auto rounded-xl shadow mt-1">
+    <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+        <!-- Cabecera -->
+        <thead class="bg-gray-100 text-gray-700 text-xs uppercase tracking-wide">
+            <tr>
+                <th scope="col" class="px-4 py-2 text-center">Cod. Barras</th>
+                <th scope="col" class="px-4 py-2 text-center">Producto</th>
+                <th scope="col" class="px-4 py-2 text-center">Exis.</th>
+                <th scope="col" class="px-4 py-2 text-center">Stock Min.</th>
+                <th scope="col" class="px-4 py-2 text-center">Precio Venta</th>
+                <th scope="col" class="px-4 py-2 text-center">Precio Compra</th>
+            </tr>
         </thead>
+
+        <!-- Datos -->
         @if (productosFiltrados() && productosFiltrados()!.length > 0) {
-            <tbody
-                tabindex="0"
-                (keydown.arrowUp)="onTeclaArriba($event)"
-                (keydown.arrowDown)="onTeclaAbajo($event)"
-            >
-                @for (producto of productosFiltrados(); let i = $index; track producto.id) {
-                <tr  
-                    (click)="seleccionarIndice(i)" 
-                    (mouseenter)="indiceHover = i"
-                    (mouseleave)="indiceHover = null"
-                    [class.selected]="indiceSeleccionadoActual() === i"
-                    [class.hover] ="indiceHover === i" 
-                    style="cursor: pointer;">
-                    <th scope="row">{{ producto.codigoBarras }}</th>
-                    <td> {{ producto.descripcion }}</td>
-                    <td>{{ producto.stockActual }}</td>
-                    <td>{{ producto.stockMinimo }}</td>
-                    <td>{{ producto.precioVenta }}</td>
-                    <td>{{ producto.precioCompra }}</td>
-                </tr>
-                }
-            </tbody>
+        <tbody tabindex="0" (keydown.arrowUp)="onTeclaArriba($event)" (keydown.arrowDown)="onTeclaAbajo($event)"
+            class="divide-y divide-gray-200 text-sm">
+            @for (producto of productosFiltrados(); let i = $index; track producto.id) {
+            <tr (click)="seleccionarIndice(i)" (mouseenter)="indiceHover = i" (mouseleave)="indiceHover = null"
+                [class.bg-blue-100]="indiceSeleccionadoActual() === i" [class.bg-gray-100]="indiceHover === i"
+                class="cursor-pointer hover:bg-gray-50 transition-colors">
+                <th scope="row" class="px-4 py-2 font-medium text-gray-700">
+                    {{ producto.codigoBarras }}
+                </th>
+                <td class="px-4 py-2">{{ producto.descripcion }}</td>
+                <td class="px-4 py-2 text-center">{{ producto.stockActual }}</td>
+                <td class="px-4 py-2 text-center">{{ producto.stockMinimo }}</td>
+                <td class="px-4 py-2 text-center">
+                    {{ producto.precioVenta | currency }}
+                </td>
+                <td class="px-4 py-2 text-center">
+                    {{ producto.precioCompra | currency }}
+                </td>
+            </tr>
+            }
+        </tbody>
         } @else {
-            <tbody>
-                <tr>
-                <td colspan="6">
+        <!-- Mensaje vacío -->
+        <tbody>
+            <tr>
+                <td colspan="6" class="px-4 py-4 text-center text-gray-500 italic">
                     No se encontraron productos
                 </td>
-                </tr>
-            </tbody>
+            </tr>
+        </tbody>
         }
     </table>
 </div>
