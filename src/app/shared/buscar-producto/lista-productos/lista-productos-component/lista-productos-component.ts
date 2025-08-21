@@ -1,8 +1,9 @@
 import { Component, ElementRef, input, OnInit, output, signal, ViewChild } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-lista-productos-component',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './lista-productos-component.html',
   styleUrl: './lista-productos-component.css'
 })
