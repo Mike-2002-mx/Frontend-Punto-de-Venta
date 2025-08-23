@@ -7,6 +7,7 @@ import { ProveedorService } from '../../../../../core/services/proveedor/proveed
 import { Categoria } from '../../../../../core/interfaces/categoria';
 import { Proveedor } from '../../../../../core/interfaces/proveedor';
 import { ProductoRequest } from '../../../interfaces/producto-request';
+import { NotificacionService } from '../../../../../core/services/notificaciones/notificacion-service';
 
 @Component({
   selector: 'app-editar-producto-component',
@@ -20,6 +21,7 @@ export class EditarProductoComponent implements OnInit {
   fb = inject(FormBuilder);
   categoriaService = inject(CategoriaService);
   proveedorService = inject(ProveedorService);
+  notificacionService = inject(NotificacionService);
 
   producto: Producto | null = null;
   productoForm: FormGroup;
@@ -116,7 +118,7 @@ export class EditarProductoComponent implements OnInit {
         next: (response) => {
           console.log('Producto actualizado', response);
           this.productoForm.reset();
-          alert("Producto Actualizado correctamente");
+          this.mensajeActualizadoCorrecto();
           this.loading = false;
         },
         error: (err) => {
@@ -134,6 +136,11 @@ export class EditarProductoComponent implements OnInit {
       const control = this.productoForm.get(field);
       control?.markAsTouched({ onlySelf: true });
     });
+  }
+
+  //Notificaciones
+  mensajeActualizadoCorrecto(){
+    this.notificacionService.showNotification("El producto se actualizo correctamente");
   }
 }
 

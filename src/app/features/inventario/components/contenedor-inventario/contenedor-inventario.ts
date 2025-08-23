@@ -3,6 +3,7 @@ import { BarraBusquedaInventario } from "../barra-busqueda-inventario/barra-busq
 import { ProductoService } from '../../../../core/services/producto-service';
 import { ListaProductosInventario } from "../lista-productos-inventario/lista-productos-inventario";
 import { Router } from '@angular/router';
+import { NotificacionService } from '../../../../core/services/notificaciones/notificacion-service';
 
 @Component({
   selector: 'app-contenedor-inventario',
@@ -14,6 +15,7 @@ export class ContenedorInventario implements OnChanges {
 
   private productosService = inject(ProductoService);
   private router = inject(Router);  
+  private notificacionService = inject(NotificacionService);
   // Signal para guardar palabra clave
   productosFiltrados = signal<Producto[]>([]);
   productos= signal<Producto[]>([]);

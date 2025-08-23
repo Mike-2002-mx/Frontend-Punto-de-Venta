@@ -6,6 +6,7 @@ import { CarritoVentaService } from '../../../../core/services/carrito-venta-ser
 import { BuscarProductoComponent } from "../../../../shared/buscar-producto/buscar-producto-component/buscar-producto-component";
 import { tap } from 'rxjs/operators';
 import { CarritoVenta } from '../../interfaces/carrito-venta';
+import { NotificacionService } from '../../../../core/services/notificaciones/notificacion-service';
 
 @Component({
   selector: 'app-carrito-compras',
@@ -18,6 +19,7 @@ export class CarritoCompras implements OnChanges {
   // Servicio de productos y carrito
   private productosService = inject(ProductoService);
   private carritoActualService = inject(CarritoVentaService);
+  private notificacionService = inject(NotificacionService);
 
   // Escucha directamente el signal del service
   carritoVentas = this.carritoActualService.carritoSignal;
@@ -88,7 +90,7 @@ export class CarritoCompras implements OnChanges {
   sumarAlCarrito(){
     const existente = this.carritoActualService.getCarritoActual()[this.indiceSeleccionado()];
     if(existente.cantidad >= existente.exis){
-      console.log("Ya no hay existencias");
+      this.errorAlerta("Ya no hay en existencia");
       return;
     }else{
       existente.cantidad +=1;
@@ -122,18 +124,22 @@ export class CarritoCompras implements OnChanges {
     this.totalVenta.set(this.carritoActualService.calcularTotal());
   }
 
-buscarProducto(codigo: string) {
-  console.log("Codigo",codigo);
-  this.productosService.buscarPorCodigo(codigo)
-    .pipe(
-      tap(producto => {
-        if (producto) {
-          this.agregarAlCarrito(producto);
+  agregarPorCodigo(codigo: string){
+    this.productosService.buscarPorCodigo(codigo).subscribe({
+      next: (response) =>{
+        if (response.stockActual<=0){
+          this.errorAlerta("Ya no hay existenicas del producto: " + response.descripcion);
+          return;
         }
-      })
-    )
-    .subscribe();
-}
+        this.agregarAlCarrito(response);
+      },
+      error:(err)=>{
+        console.log(err.error.message);
+        this.errorAlerta(err.error.message);
+      }
+    })
+
+  }
 
   agregarAlCarrito(producto: Producto) {
     if (!producto || typeof producto.id === "undefined") {
@@ -148,6 +154,7 @@ buscarProducto(codigo: string) {
     if (existente) {
       // Validar existencias
       if (existente.cantidad >= existente.exis) {
+        this.errorAlerta("Ya no hay existencias");
         console.warn(`No hay más existencias de: ${producto.descripcion ?? "Producto sin nombre"}`);
         return;
       }
@@ -180,6 +187,11 @@ buscarProducto(codigo: string) {
       event.preventDefault();
       this.showModal();
     }
+  }
+
+  //Alertas 
+  errorAlerta(message: string):void{
+    this.notificacionService.showErrorNotification(message);
   }
 
 }

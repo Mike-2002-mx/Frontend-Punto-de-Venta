@@ -6,6 +6,7 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+
 html {
   @include mat.theme((
     color: (
@@ -33,3 +34,11 @@ body {
   // Reset the user agent margin.
   margin: 0;
 }
+
+mat-snack-bar-container.error-snackbar{
+  @include mat.snack-bar-overrides((
+    button-color: black,
+    container-color: #ff9800,
+  ));
+}
+

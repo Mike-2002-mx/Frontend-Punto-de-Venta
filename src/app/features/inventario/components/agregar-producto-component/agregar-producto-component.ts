@@ -6,6 +6,7 @@ import { ProveedorService } from '../../../../core/services/proveedor/proveedor-
 import { Proveedor } from '../../../../core/interfaces/proveedor';
 import { ProductoRequest } from '../../interfaces/producto-request';
 import { ProductoService } from '../../../../core/services/producto-service';
+import { NotificacionService } from '../../../../core/services/notificaciones/notificacion-service';
 
 @Component({
   selector: 'app-agregar-producto-component',
@@ -20,6 +21,7 @@ export class AgregarProductoComponent {
   categoriaService = inject(CategoriaService);
   proveedorService = inject(ProveedorService);
   productoService = inject(ProductoService);
+  notificacionService = inject(NotificacionService);
   
   categorias: Categoria[] = [];
   proveedores: Proveedor[] = [];
@@ -59,11 +61,12 @@ export class AgregarProductoComponent {
 
       this.productoService.agregarProducto(formData).subscribe({
         next: (response) => {
-          console.log("Respuesta: ", response);
+          this.notificacionGuardadoCorrecto();
           this.productoForm.reset();
         },
         error: (err) => {
-          console.error('Error al crear producto:', err);
+          this.notificacionError(err.error.message);
+          console.error('Error al crear producto:', err.error.message);
         }
       });
     } else {
@@ -77,6 +80,15 @@ export class AgregarProductoComponent {
       const control = this.productoForm.get(field);
       control?.markAsTouched({ onlySelf: true });
     });
+  }
+
+  //Mensajes
+  notificacionGuardadoCorrecto(){
+    this.notificacionService.showNotification("El producto se guardo correctamente");
+  }
+
+  notificacionError(message:string){
+    this.notificacionService.showErrorNotification(message);
   }
   
 }

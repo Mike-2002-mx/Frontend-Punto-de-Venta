@@ -98,11 +98,9 @@ export class ModalCerrarVenta {
     this.ventaService.crearVenta(nuevaVenta).subscribe({
       next:(ventaCreada)=>{
         console.log('Venta creada con éxito:', ventaCreada);
-        alert('Venta registrada correctamente!');
       },
       error: (error) => {
         console.error('Error al crear la venta:', error);
-        alert('Ocurrió un error al registrar la venta');
       }
     });
 

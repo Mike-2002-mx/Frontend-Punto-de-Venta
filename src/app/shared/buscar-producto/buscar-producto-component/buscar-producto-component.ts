@@ -3,6 +3,7 @@ import { ListaProductosComponent } from "../lista-productos/lista-productos-comp
 import { ProductoService } from '../../../core/services/producto-service';
 import { BarraBusquedaComponent } from "../barra-busqueda/barra-busqueda-component/barra-busqueda-component";
 import { toSignal } from '@angular/core/rxjs-interop';
+import { NotificacionService } from '../../../core/services/notificaciones/notificacion-service';
 
 @Component({
   selector: 'app-buscar-producto-component',
@@ -12,6 +13,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class BuscarProductoComponent {
   private productosService = inject(ProductoService);
+  private notificacionService = inject(NotificacionService);
 
   // Signal para guardar palabras clave
   productosFiltrados = signal<Producto[]>([]);
@@ -60,7 +62,10 @@ export class BuscarProductoComponent {
   onTeclaEnter() {
     const productoSeleccionado = this.productoSeleccionado();
     if (productoSeleccionado) {
-      console.log("Emitiendo producto", productoSeleccionado);
+      if (productoSeleccionado.stockActual <= 0) {
+        this.notificacionService.showErrorNotification("No hay existencias del producto");
+        return;
+      }
       this.productoSeleccionadoOutput.emit(productoSeleccionado);
       this.closeModal();
     } else {
@@ -90,7 +95,13 @@ export class BuscarProductoComponent {
   }
 
   onProductoSeleccionado(producto: Producto) {
+    if(producto.stockActual <= 0){
+      this.notificacionService.showErrorNotification("No hay existencias del producto");
+      return;
+    }
     this.productoSeleccionadoOutput.emit(producto);
     this.closeModal();
   }
+
+
 }
