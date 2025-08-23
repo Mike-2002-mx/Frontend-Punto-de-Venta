@@ -1,5 +1,40 @@
-<div>
-    <button (click)="onCerrarAjuste()">Cerrar Ajuste</button>
-    <button (click)="onBuscarProducto()" >Buscar Producto</button>
-    <button (click)="onRemoverProducto()" >Remover producto</button>
-</div>       
+<div class="flex gap-4">
+    <!-- Botón cerrar -->
+    <button (click)="onCerrarAjuste()" class="action-btn">
+        Cerrar Ajuste
+    </button>
+
+    <!-- Botón buscar -->
+    <button (click)="onBuscarProducto()" class="action-btn">
+        Buscar Producto
+    </button>
+
+    <!-- Botón remover -->
+    <button (click)="onRemoverProducto()" class="action-btn">
+        Remover Producto
+    </button>
+    <style>
+        .action-btn {
+            color: #ffffff;
+            background-color: #1d4ed8;
+            font-weight: 500;
+            font-size: 1rem;
+            text-align: center;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            outline: none;
+            box-shadow: none;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: #1e40af;
+            /* hover:bg-blue-800 */
+        }
+
+        .action-btn:focus {
+            box-shadow: 0 0 0 0.25rem rgba(147, 197, 253, 0.5);
+            /* focus:ring-4 focus:ring-blue-300 */
+        }
+    </style>
+</div>

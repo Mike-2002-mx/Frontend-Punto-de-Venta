@@ -37,17 +37,17 @@
     <div class="flex items-center justify-between">
         <button (click)="onClicAtras()"
             class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 disabled:opacity-50"
-            [disabled]="paginaActual() === 0">
+            [disabled]="pagina() === 1">
             Atrás
         </button>
 
         <h3 class="text-sm font-medium text-gray-600">
-            {{ paginaActual() }} / {{ totalPaginas() }}
+            {{ pagina() }} / {{ totalPaginas() }}
         </h3>
 
         <button (click)="onClicSiguiente()"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 disabled:opacity-50"
-            [disabled]="paginaActual() === totalPaginas()">
+            [disabled]="pagina() === totalPaginas()">
             Siguiente
         </button>
     </div>

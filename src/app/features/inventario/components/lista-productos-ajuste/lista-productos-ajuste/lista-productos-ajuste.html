@@ -1,46 +1,42 @@
-<div>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Existencia Anterior</th>
-            <th scope="col">Nueva Existencia</th>
-            <th scope="col">Diferencia</th>
-            <th scope="col">Precio U.</th>
-            <th scope="col">Subtotal</th>
-        </tr>
+<div class="overflow-x-auto rounded-2xl shadow-md border border-gray-200">
+    <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-gray-700 uppercase text-xs font-semibold">
+            <tr>
+                <th scope="col" class="px-4 py-3">Descripción</th>
+                <th scope="col" class="px-4 py-3">Existencia Anterior</th>
+                <th scope="col" class="px-4 py-3">Nueva Existencia</th>
+                <th scope="col" class="px-4 py-3">Diferencia</th>
+                <th scope="col" class="px-4 py-3">Precio U.</th>
+                <th scope="col" class="px-4 py-3">Subtotal</th>
+            </tr>
         </thead>
+
         @if (carritoAjuste() && carritoAjuste().length > 0) {
-            <tbody 
-                tabindex="0" 
-                (keydown.arrowUp)="onTeclaArriba($event)"
-                (keydown.arrowDown)="onTeclaAbajo($event)"
-            >
-                @for (producto of carritoAjuste(); let i = $index; track producto.descripcion) {
-                <tr 
-                    (click)="seleccionarIndice(i)" 
-                    (mouseenter)="indiceHover = i"
-                    (mouseleave)="indiceHover = null"
-                    [class.selected]="indiceSeleccionadoActual() === i"
-                    [class.hover] ="indiceHover === i" 
-                    style="cursor: pointer;">
-                    <th scope="row">{{ producto.descripcion }}</th>
-                    <td>{{ producto.existenciaAnterior }}</td>
-                    <td>{{ producto.nuevaExistencia }}</td>
-                    <td>{{ producto.diferencia }}</td>
-                    <td>{{ producto.precioU }}</td>
-                    <td>{{ producto.subtotal }}</td>
-                </tr>
-                }
-            </tbody>
+        <tbody tabindex="0" (keydown.arrowUp)="onTeclaArriba($event)" (keydown.arrowDown)="onTeclaAbajo($event)"
+            class="divide-y divide-gray-200 text-gray-700">
+            @for (producto of carritoAjuste(); let i = $index; track producto.descripcion) {
+            <tr (click)="seleccionarIndice(i)" (mouseenter)="indiceHover = i" (mouseleave)="indiceHover = null"
+                [class.bg-blue-50]="indiceHover === i" [class.bg-blue-100]="indiceSeleccionadoActual() === i"
+                class="cursor-pointer transition-colors">
+                <th scope="row" class="px-4 py-3 font-medium text-gray-900">
+                    {{ producto.descripcion }}
+                </th>
+                <td class="px-4 py-3">{{ producto.existenciaAnterior }}</td>
+                <td class="px-4 py-3">{{ producto.nuevaExistencia }}</td>
+                <td class="px-4 py-3">{{ producto.diferencia }}</td>
+                <td class="px-4 py-3">{{ producto.precioU }}</td>
+                <td class="px-4 py-3">{{ producto.subtotal }}</td>
+            </tr>
+            }
+        </tbody>
         } @else {
-            <tbody>
-                <tr>
-                <td colspan="6">
+        <tbody>
+            <tr>
+                <td colspan="6" class="text-center py-6 text-gray-500">
                     No se encontraron productos
                 </td>
-                </tr>
-            </tbody>
+            </tr>
+        </tbody>
         }
     </table>
 </div>

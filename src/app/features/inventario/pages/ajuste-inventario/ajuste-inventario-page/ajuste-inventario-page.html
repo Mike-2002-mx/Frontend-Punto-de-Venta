@@ -1,2 +1,12 @@
-<app-cinta-opciones-ajuste (clicCerrarAjuste)="onClicCerrarAjuste()" (clicBuscarProducto)="onClicBuscarProducto()" (clicRemoverProducto)="onClicRemoverProducto()"/>
-<app-contenedor-ajuste [clicCerrarAjuste]="clicCerrarAjuste()" [clicBuscarProducto]="clicBuscarProducto()" [clicRemoverProducto]="clicRemoverProducto()" />
+<div class="flex flex-col h-screen bg-gray-100">
+    <!-- Barra de opciones arriba -->
+    <app-cinta-opciones-ajuste class="shadow-md bg-white p-3 border-b border-gray-200"
+        (clicCerrarAjuste)="onClicCerrarAjuste()" (clicBuscarProducto)="onClicBuscarProducto()"
+        (clicRemoverProducto)="onClicRemoverProducto()">
+    </app-cinta-opciones-ajuste>
+
+    <!-- Contenido principal -->
+    <app-contenedor-ajuste class="flex-1 overflow-y-auto p-3" [clicCerrarAjuste]="clicCerrarAjuste()"
+        [clicBuscarProducto]="clicBuscarProducto()" [clicRemoverProducto]="clicRemoverProducto()">
+    </app-contenedor-ajuste>
+</div>

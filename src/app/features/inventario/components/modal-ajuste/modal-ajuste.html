@@ -1,14 +1,33 @@
-<h1 mat-dialog-title>Example Modal</h1>
-<div mat-dialog-content>
-  <input 
-    cdkFocusInitial
-    [placeholder]="data.stockActual"
-    type="text" 
-    autofocus 
-    #nuevaData    
+<div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
+  <!-- Título -->
+  <h1 class="text-lg font-semibold text-gray-800 mb-4">Example Modal</h1>
+
+  <!-- Contenido -->
+  <div class="mb-6">
+    <input
+      cdkFocusInitial
+      [placeholder]="data.stockActual"
+      type="text"
+      autofocus
+      #nuevaData
+      class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm placeholder-gray-400 text-gray-700 transition"
+    />
+  </div>
+
+  <!-- Acciones -->
+  <div class="flex justify-end gap-3">
+    <button
+      (click)="closeModal()"
+      class="px-4 py-2 rounded-xl bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 active:scale-95 transition"
     >
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="closeModal()">Close</button>
-  <button mat-button (click)="clicAceptar()">Aceptar</button>
+      Cerrar
+    </button>
+
+    <button
+      (click)="clicAceptar()"
+      class="px-4 py-2 rounded-xl bg-blue-500 text-white font-medium shadow hover:bg-blue-600 active:scale-95 transition"
+    >
+      Aceptar
+    </button>
+  </div>
 </div>

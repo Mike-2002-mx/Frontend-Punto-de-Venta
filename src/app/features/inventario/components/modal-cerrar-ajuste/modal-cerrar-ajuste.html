@@ -1,11 +1,35 @@
-<h1 mat-dialog-title>Detalles del Ajuste</h1>
-<div mat-dialog-content>
-    <p>{{data.motivo}}</p>
-    <h3>Total positivo {{data.totalPositivo}} </h3>
-    <h3>Total negativo {{data.totalNegativo}} </h3>
-    <h3>Total general  {{data.totalGeneral}} </h3>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="closeModal()">Close</button>
-  <button mat-button (click)="clicAceptar()">Aceptar</button>
+<div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
+  <!-- Título -->
+  <h1 class="text-lg font-semibold text-gray-800 mb-4">Detalles del Ajuste</h1>
+
+  <!-- Contenido -->
+  <div class="space-y-3 mb-6">
+    <p class="text-gray-600">Motivo: <span class="font-medium text-gray-800">{{ data.motivo }}</span></p>
+    <h3 class="text-green-600 font-semibold">
+      Total positivo: {{ data.totalPositivo }}
+    </h3>
+    <h3 class="text-red-600 font-semibold">
+      Total negativo: {{ data.totalNegativo }}
+    </h3>
+    <h3 class="text-blue-600 font-bold">
+      Total general: {{ data.totalGeneral }}
+    </h3>
+  </div>
+
+  <!-- Acciones -->
+  <div class="flex justify-end gap-3">
+    <button
+      (click)="closeModal()"
+      class="px-4 py-2 rounded-xl bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 active:scale-95 transition"
+    >
+      Cerrar
+    </button>
+
+    <button
+      (click)="clicAceptar()"
+      class="px-4 py-2 rounded-xl bg-blue-500 text-white font-medium shadow hover:bg-blue-600 active:scale-95 transition"
+    >
+      Aceptar
+    </button>
+  </div>
 </div>

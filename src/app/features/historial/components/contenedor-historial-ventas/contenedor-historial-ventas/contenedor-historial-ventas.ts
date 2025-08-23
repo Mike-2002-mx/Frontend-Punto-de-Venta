@@ -44,7 +44,7 @@ export class ContenedorHistorialVentas implements OnInit{
       this.fechaInicio.set(fechaInicio);
       this.fechaFin.set(fechaFin);
     });
-    this.esBusquedaPorFecha = false;
+    this.esBusquedaPorFecha = true;
   }
 
   ngOnInit(): void {
@@ -99,7 +99,6 @@ export class ContenedorHistorialVentas implements OnInit{
     const fechaInicio = data.fechaInicio
     const fechaFin =  data.fechaFin
     this.cargarProductosPorFecha(fechaInicio, fechaFin, 0);
-    this.esBusquedaPorFecha = true;
   }
 
 
