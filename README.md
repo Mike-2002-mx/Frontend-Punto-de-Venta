@@ -1,4 +1,4 @@
-# Frontend Sistema Punto de Venta
+# Point of Sale (POS) System Frontend
 The Point Of Sale (POS) frontend designed to support business operations with:
 - Sales Module - Handle product sales.
 - Inventory Module - Track and manage products in stock.
@@ -38,10 +38,10 @@ Project is created with:
 ### Sales History
 - Review and track previous transactions with ease.
 
-## ⚙️ Setup
+## Setup
 Follow these steps to get the project running locally on your machine:
 
-### 1.Prerequisites
+### 1. Prerequisites
 Make sure you have the following installed:
 
 - **Node.js** v22.14.0  
@@ -56,8 +56,8 @@ ng version
 ```
 ### 2. Clone the repository
 ```
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/your-username/Frontend-Punto-de-Venta.git
+cd Frontend-Punto-de-Venta.git
 ```
 
 ### 3. Install dependencies
@@ -75,10 +75,14 @@ ng serve
 
 The app should now be running, and any changes in the code will automatically reload the browser.
 
+**Note:** To view and manage products, you must first install and run the backend project, since this frontend relies on the API for data.
+
+Backend project: (https://github.com/Mike-2002-mx/Punto-De-Venta)
+
 ## Project Status
 Project is: _in progress_ 
 
-## 🛠 Room for Improvement
+## Room for Improvement
 
 ### Current Improvements
 - Improve the color scheme of the website for better aesthetics.  
@@ -88,9 +92,8 @@ Project is: _in progress_
 - Add support for shopping cart functionality.  
 - Implement user authentication and authorization.  
 
-## 📬 Contact
+## Contact
 
 - **Name:** Miguel Mateo 
-
 - **GitHub:** [https://github.com/Mike-2002-mx](https://github.com/Mike-2002-mx)  
 - **LinkedIn:** [https://www.linkedin.com/in/Miguel-Mateo](https://www.linkedin.com/in/miguel-mateo-link)
