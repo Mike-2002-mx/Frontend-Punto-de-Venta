@@ -17,9 +17,13 @@
         <tbody tabindex="0" (keydown.arrowUp)="onTeclaArriba($event)" (keydown.arrowDown)="onTeclaAbajo($event)"
             class="divide-y divide-gray-200 text-sm">
             @for (producto of productosFiltrados(); let i = $index; track producto.id) {
-            <tr (click)="seleccionarIndice(i)" (mouseenter)="indiceHover = i" (mouseleave)="indiceHover = null"
-                [class.bg-blue-100]="indiceSeleccionadoActual() === i" [class.bg-gray-100]="indiceHover === i"
-                class="cursor-pointer hover:bg-gray-50 transition-colors">
+            <tr 
+                (click)="seleccionarIndice(i)" 
+                (mouseenter)="indiceHover = i" 
+                (mouseleave)="indiceHover = null"
+                [class.bg-sky-300]="indiceSeleccionadoActual() === i" 
+                [class.bg-gray-100]="indiceHover === i"
+                class="cursor-pointer hover:bg-sky-100">
                 <th scope="row" class="px-4 py-2 font-medium text-gray-700">
                     {{ producto.codigoBarras }}
                 </th>

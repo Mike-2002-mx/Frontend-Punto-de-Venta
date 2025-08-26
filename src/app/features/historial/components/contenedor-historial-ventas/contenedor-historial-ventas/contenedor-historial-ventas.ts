@@ -17,7 +17,7 @@ export class ContenedorHistorialVentas implements OnInit{
   ventaSevice = inject(VentaService);
 
   listaVentas = signal<Venta[]>([]);
-  paginaActual = signal<number>(0);
+  paginaActual = signal<number>(-1);
   totalPaginas = signal<number>(0);
   pageSize = 10;
   fechaInicio = signal<string>('');
