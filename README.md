@@ -9,6 +9,7 @@ The Point Of Sale (POS) frontend designed to support business operations with:
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
+* [Screenshots](#screenshots)
 * [Setup](#setup)
 * [Project Status](#project-status)
 * [Room for Improvement](#room-for-improvement)
@@ -37,6 +38,19 @@ Project is created with:
 - Adjust stock levels.
 ### Sales History
 - Review and track previous transactions with ease.
+
+## Screenshots
+**Sales Page**  
+![Sales Page](./public/img/Modulo-ventas.png)
+
+**Inventory Page**  
+![Inventory Page](./public/img/Modulo-inventario.png)
+
+**Add product Page**  
+![Add Product Page](./public/img/Agregar-producto.png)
+
+**History Page**  
+![History Page](./public/img/Modulo-buscar-ventas.png)
 
 ## Setup
 Follow these steps to get the project running locally on your machine:

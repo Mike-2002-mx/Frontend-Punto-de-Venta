@@ -1,13 +1,14 @@
 import { Component, ElementRef, inject, output, signal, ViewChild } from '@angular/core';
 import { CarritoVentaService } from '../../../../core/services/carrito-venta-service';
 import { VentaService } from '../../../../core/services/venta-service';
-import { Venta } from '../../../../core/interfaces/venta';
 import { DetallesVentaRequest, VentaRequest } from '../../interfaces/venta-request';
 import { CarritoVenta } from '../../interfaces/carrito-venta';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-modal-cerrar-venta',
-  imports: [],
+  standalone:true,
+  imports: [CurrencyPipe],
   templateUrl: './modal-cerrar-venta.html',
   styleUrl: './modal-cerrar-venta.css'
 })

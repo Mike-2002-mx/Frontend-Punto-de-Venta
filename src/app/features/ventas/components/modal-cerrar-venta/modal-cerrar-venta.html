@@ -1,17 +1,40 @@
-<div class="modal-overlay fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center"
+<div class="modal-overlay flex items-center justify-center"
 	(click)="closeModal()">
-	<div class="modal-content bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4"
+	<div class="modal-content"
 		(click)="$event.stopPropagation()">
 		<h2 class="text-2xl font-bold text-gray-900 mb-4">Ticket</h2>
 		<h2 class="text-xl font-semibold text-gray-900">Total a pagar</h2>
-		<h2 class="text-2xl font-bold text-blue-900 mb-4">{{totalVenta}}</h2>
+		<h2 class="text-2xl font-bold text-blue-900 mb-4">{{totalVenta | currency}}</h2>
 		<p class="text-gray-600 mb-2">Paga Con</p>
 		<input type="number" autofocus [value]="pagoCon()" (input)="calcularCambio(pagoConTxt.valueAsNumber)"
 			#pagoConTxt tabindex="0"
 			class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 mb-4">
 		<h2 class="text-xl font-semibold text-gray-900">Cambio</h2>
-		<h3 class="text-lg font-medium text-emerald-500 mb-6">{{cambio()}}</h3>
+		<h3 class="text-lg font-medium text-emerald-500 mb-6">{{cambio() | currency}}</h3>
 		<button (click)="cerrarVenta()"
 			class="w-full bg-blue-900 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-500 transition-colors duration-200">Aceptar</button>
 	</div>
+	<style>
+		.modal-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.7);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	
+		.modal-content {
+			background-color: #fff;
+			padding: 30px;
+			border-radius: 10px;
+			text-align: center;
+			max-width: 500px;
+			width: 100%;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+		}
+	</style>
 </div>

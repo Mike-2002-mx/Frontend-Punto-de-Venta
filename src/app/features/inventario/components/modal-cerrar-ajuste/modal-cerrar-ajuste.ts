@@ -18,6 +18,7 @@ export class ModalCerrarAjuste {
   
   clicAceptar() {
     console.log("Se ha cerrado el ajuste con los siguientes datos: ", this.data);
-    this.dialogRef.close();
+    const cerrado = true;
+    this.dialogRef.close(cerrado);
   }
 }

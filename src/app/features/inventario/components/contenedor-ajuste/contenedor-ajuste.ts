@@ -92,8 +92,9 @@ export class ContenedorAjuste implements OnInit, OnChanges {
       }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      const carritoAjuste = this.carritoAjuste();
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        const carritoAjuste = this.carritoAjuste();
       const ajusteData:AjusteInventarioRequest = this.carritoToAjusteRequest(carritoAjuste, motivoAjuste);
       this.ajusteService.agregarAjuste(ajusteData).subscribe({
         next: (response)=>{
@@ -105,7 +106,10 @@ export class ContenedorAjuste implements OnInit, OnChanges {
           console.error('Error al crear producto:', err);
         }
       });
-    })
+      }else{
+        console.log("El usuario canceló o cerró sin enviar datos");
+      }
+    })  
   }
 
   // Modificar el openModal para manejar la lógica completa
